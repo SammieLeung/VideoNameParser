@@ -11,7 +11,6 @@ import android.util.Log;
 
 public class StringUtils {
 
-
 	/**
 	 * 检查字符串中是否包含中文字符
 	 * @param str
@@ -122,6 +121,13 @@ public class StringUtils {
 		return m.find();
 	}
 
+	public static boolean matchFindStrictMode(String regex,String input){
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(input);
+		return m.find();
+	}
+
+
 	public static  String[] matcher(String regex,String input) {
 		return matcher(regex,Pattern.CASE_INSENSITIVE, input);
 	}
@@ -158,6 +164,59 @@ public class StringUtils {
 
 		return list.toArray(new String[0]);
 	}
+
+	/**
+	 * 中文数字转阿拉伯数字
+	 * (长度不能超过long最大值)
+	 * @param chNum 中文数字
+	 * @return 阿拉伯数字
+	 */
+	public static long ch2Num(String chNum) {
+		int[] numLen = {16, 8, 4, 3, 2, 1};//对应下面单位后面多少个零
+
+		String[] dw = {"兆", "亿", "万", "千", "百", "十"}; //中文单位
+
+		String[] dw1 = {"兆", "亿", "萬", "仟", "佰", "拾"}; //中文单位另一版
+
+		String[] sz = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}; //中文数字
+
+		String[] sz1 = {"〇", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"}; //中文数字另一版
+
+		if (chNum == null) return 0;//空对象返回0
+		for (int i = 0; i < sz.length; i++) { //统一文字版本
+			if (i < dw.length)
+				chNum = chNum.replaceAll(dw1[i], dw[i]);
+			chNum = chNum.replaceAll(sz1[i], sz[i]);
+		}
+		chNum = chNum.replaceAll("(百.)\\b", "$1十"); //正则替换为了匹配中文类似二百五这样的词
+		if (chNum.length() == 1) {
+			for (int i = 0; i < sz.length; i++) {
+				if (chNum.equals(sz[i])) return i;
+			}
+			return 0; //中文数字没有这个字
+		}
+		chNum = strReverse(chNum); //调转输入的字符串
+		for (int i = 0; i < dw.length; i++) {
+			if (chNum.contains(dw[i])) {
+				String part[] = chNum.split(dw[i], 2); //把字符串分割2部分
+				long num1 = ch2Num(strReverse(part[1]));
+				long num2 = ch2Num(strReverse(part[0]));
+				return (long) ((num1 == 0 ? 1 : num1) * Math.pow(10, numLen[i]) + num2);
+			}
+		}
+		char[] c = chNum.toCharArray();
+		long sum = 0;
+		for (int i = 0; i < c.length; i++) { //一个个解析数字
+			String tem = String.valueOf(c[i]); //根据索引转成对应数字
+			sum += ch2Num(tem) * Math.pow(10, i);//根据位置给定数字
+		}
+		return sum;
+	}
+	//字符串掉转
+	private static String strReverse(String str) {
+		return new StringBuilder(str).reverse().toString();
+	}
+
 	public static String removeAll(String str, ArrayList<String> removeWords){
 		if(TextUtils.isEmpty(str) || removeWords == null || removeWords.size() == 0) return str;
 		for (String string : removeWords) {
@@ -196,12 +255,13 @@ public class StringUtils {
 		}
 		return keyword;
 	}
+
 	public static void debug(String[] matches){
-		Log.v("sjfqq","**********************************");
+		Log.v("sjfqq","▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽");
 		for (String string : matches) {
 			Log.v("sjfqq","debug string："+string);
 		}
-		Log.v("sjfqq","**********************************");
+		Log.v("sjfqq","△△△△△△△△△△△△△△△△");
 	}
 
 }

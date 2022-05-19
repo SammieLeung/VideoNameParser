@@ -40,6 +40,7 @@ public class MovieNameInfo {
 
     String fileSize;
 
+    ArrayList<String> patterns;
 
     public String getFileSize() {
         return fileSize;
@@ -96,7 +97,7 @@ public class MovieNameInfo {
                     sb.append(prefix + i + ",");
                 }
             }
-            sb.delete(sb.length() - 1,sb.length());
+            sb.delete(sb.length() - 1, sb.length());
             return sb.toString();
         }
         return "";
@@ -116,16 +117,16 @@ public class MovieNameInfo {
             this.name = name;
             this.name_cn = name;
         } else {
-            StringBuffer sb_cn=new StringBuffer();
+            StringBuffer sb_cn = new StringBuffer();
             if (StringUtils.hasGB2312(nameParts[0])) {
-                for(int i=0;i<nameParts.length;i++){
-                        sb_cn.append(StringUtils.getOnlyGB2312(nameParts[i]));
+                for (int i = 0; i < nameParts.length; i++) {
+                    sb_cn.append(StringUtils.getOnlyGB2312(nameParts[i]));
                 }
                 this.name_cn = sb_cn.toString();
-                if(name.length()-1==name.indexOf(sb_cn.charAt(sb_cn.length()-1))){
-                   this.name=name_cn;
-                }else {
-                    this.name = name.substring(name.indexOf(sb_cn.charAt(sb_cn.length() - 1))+1).trim();
+                if (name.length() - 1 == name.indexOf(sb_cn.charAt(sb_cn.length() - 1))) {
+                    this.name = name_cn;
+                } else {
+                    this.name = name.substring(name.indexOf(sb_cn.charAt(sb_cn.length() - 1)) + 1).trim();
                 }
             } else {
                 this.name = name;
@@ -197,6 +198,27 @@ public class MovieNameInfo {
     public void pushTag(String tag) {
         if (tags == null) tags = new ArrayList<String>();
         tags.add(tag);
+    }
+
+    public void pushPattern(String pattern) {
+        if (patterns == null) patterns = new ArrayList<String>();
+        patterns.add(pattern);
+    }
+
+    public boolean containPattern(String pattern) {
+        if (patterns != null)
+            return patterns.contains(pattern);
+        return false;
+    }
+
+    public boolean containPatterns(String... patterns) {
+        if (patterns == null)
+            return false;
+        for (String pattern : patterns) {
+            if (!this.patterns.contains(pattern))
+                return false;
+        }
+        return true;
     }
 
     @Override
