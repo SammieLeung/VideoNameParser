@@ -18,8 +18,7 @@ public class OtherItem {
 	public static final String[] FAN_SUBTITLED__REGEX = {"Fansub"};
 	public static final String[] FAST_SUBTITLED__REGEX = {"Fastsub"};
 
-	public static final String[] TRANSLATION_GROUPS_REGEX={"^[^aeiou]+$"};
-	
+
 	
 	public String tag;
 	
@@ -62,8 +61,6 @@ public class OtherItem {
 		}else if(StringUtils.matchListFind(FAN_SUBTITLED__REGEX, input))
 		{
 			tag = "Fast Subtitled";
-		}else if(StringUtils.matchListFind(TRANSLATION_GROUPS_REGEX,input)){
-			tag="Translate Groups";
 		}
 		Log.v("sjfq", "OtherItem tag :"+tag);
 		if(tag != null)

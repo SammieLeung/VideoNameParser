@@ -96,7 +96,7 @@ public class Episodes {
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
 
-        if(episodes.episode==0) {
+        if (episodes.episode == 0) {
             regex = build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "?(\\d+)";
             Log.v("sjfqq", "regex:" + regex);
             dotStampMatch = StringUtils.matcher(regex, input);
@@ -140,7 +140,22 @@ public class Episodes {
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
 
-        regex = "第?([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[集话話章]";
+        regex = "[全共]([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[集话話章]";
+        Log.v("sjfqq", "regex:" + regex);
+        dotStampMatch = StringUtils.matcher(regex, input);
+        StringUtils.debug(dotStampMatch);
+        if (dotStampMatch != null && dotStampMatch.length == 2) {
+            String numStr = dotStampMatch[1];
+            if (StringUtils.checkChina(numStr)) {
+                episodes.episode = 1;
+                episodes.toEpisode = (int) StringUtils.ch2Num(numStr);
+            } else {
+                episodes.episode = 1;
+                episodes.toEpisode = Integer.parseInt(dotStampMatch[1]);
+            }
+        }
+
+        regex = "第([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[集话話章]";
         Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
@@ -153,7 +168,7 @@ public class Episodes {
             }
         }
 
-        regex = "第?([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[部季]";
+        regex = "第([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[部季]";
         Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);

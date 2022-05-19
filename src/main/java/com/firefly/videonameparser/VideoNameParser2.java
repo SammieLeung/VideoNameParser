@@ -98,10 +98,10 @@ public class VideoNameParser2 {
      * S3E301-02
      * EP01-02
      */
-    private static final String PATTERN_SEASON_OR_EPISODE_OR_YEAR=
-            "("+build_or_pattern(SEASON_WORDS,EPISODE_WORDS,new String[]{"第","共","全"})+
-            "?(?:[0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})"
-            +build_or_pattern(EPISODE_WORDS,new String[]{"季","话","話","集","部","-"})+"?(?:[0-9]{0,4}-?[0-9]{0,4}))";
+    private static final String PATTERN_SEASON_OR_EPISODE_OR_YEAR =
+            "(" + build_or_pattern(SEASON_WORDS, EPISODE_WORDS, new String[]{"第", "共", "全"}) +
+                    "?(?:[0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})"
+                    + build_or_pattern(EPISODE_WORDS, new String[]{"季", "话", "話", "集", "部", "-"}) + "?(?:[0-9]{0,4}-?[0-9]{0,4}))";
     /**
      * 0.
      * (.*[\.| |_]){2,}
@@ -117,7 +117,7 @@ public class VideoNameParser2 {
      * 网页website.中文名.2022.BD.1080P.中英双字.mkv
      * www.website.com.中文名.2022.BD.1080P.mp4
      **/
-    private static final String PATTERN_B = "^(?:[A-Za-z0-9\\u4e00-\\u9fa5-:!?_ ]+[\\.| |_])+(?:19[0-9][0-9]|20[0-9][0-9])[\\.| |_]+" ;
+    private static final String PATTERN_B = "^(?:[A-Za-z0-9\\u4e00-\\u9fa5-:!?_ ]+[\\.| |_])+(?:19[0-9][0-9]|20[0-9][0-9])[\\.| |_]+";
 
     /* *
      * 2. [series title][20] 匹配剧集/动画 title+集数/年份
@@ -132,11 +132,11 @@ public class VideoNameParser2 {
      * www.dgy8.com[房子][2022][BD][1080P].mp4
      */
 //    private static final String PATTERN_C = "\\[([A-Za-z0-9\\u4E00-\\u9FA5 _]*)+\\]\\[[0-9]{2,4}\\]";
-    private static final String PATTERN_C="\\[([\\u4e00-\\u9fa5\\w\\d,!?: _-]+)\\]\\["+PATTERN_SEASON_OR_EPISODE_OR_YEAR+"\\]";
+    private static final String PATTERN_C = "\\[([\\u4e00-\\u9fa5\\w\\d,!?: _-]+)\\]\\[" + PATTERN_SEASON_OR_EPISODE_OR_YEAR + "\\]";
 
-    private static final String PATTERN_C2="\\]?((?:[\\u4e00-\\u9fa5\\w\\d,!?: _-]+)\\["+PATTERN_SEASON_OR_EPISODE_OR_YEAR+"\\])";
+    private static final String PATTERN_C2 = "\\]?([\\u4e00-\\u9fa5\\w\\d,!?: _-]+)\\[" + PATTERN_SEASON_OR_EPISODE_OR_YEAR + "\\]";
 
-    private static final String PATTERN_C_PREFIX="^\\[[\\u4e00-\\u9fa5\\w\\d,!?: _-]+\\]\\["+PATTERN_SEASON_OR_EPISODE_OR_YEAR+"\\]";
+    private static final String PATTERN_C_PREFIX = "^\\[[\\u4e00-\\u9fa5\\w\\d,!?: _-]+\\]\\[" + PATTERN_SEASON_OR_EPISODE_OR_YEAR + "\\]";
 
 
     /* 3.[translate group|website|etc.]Movie Title[99|2099] 名字没有被[]包裹
@@ -149,7 +149,7 @@ public class VideoNameParser2 {
      * [HYSUB]ONE PUNCH MAN[2017][GB_MP4][1280X720].mp4
      */
 //    private static final String PATTERN_D = "(?:\\[.*\\])+([A-Za-z0-9\\u4E00-\\u9FA5]+\\s?)+\\[([0-9]+)\\]";
-    private static final String PATTERN_D = "(?:\\[.*\\])+([A-Za-z0-9\\u4E00-\\u9FA5]+\\s?)+\\["+PATTERN_SEASON_OR_EPISODE_OR_YEAR+"\\]";
+    private static final String PATTERN_D = "(?:\\[.*\\])+([A-Za-z0-9\\u4E00-\\u9FA5]+\\s?)+\\[" + PATTERN_SEASON_OR_EPISODE_OR_YEAR + "\\]";
 
 
     /**
@@ -198,29 +198,22 @@ public class VideoNameParser2 {
          * extension
          */
         for (String part : reverse(firstNameSplit)) {
-            if (mInfo.getExtension() != null && contain(extensions, part.toLowerCase())) {
+            if (mInfo.getExtension() == null && contain(extensions, part.toLowerCase())) {
                 mInfo.setExtension(part);
                 continue;
             }
         }
         String firstName = segments[0].replaceAll("\\.| |_", "");//like [BD影视分享bd2020co]青春变形记TurningRed2022AAC51HD1080P国粤英三语中字mp4
-		for (String seg : segments) {
-			parserYear(seg);
-			parserAired(seg);
-			parserEpisode(seg);
-		}
 
-
-
-        String TAGK="tagk";
+        String TAGK = "tagk";
         for (String seg : segments) {
             //预筛选分类
             while (StringUtils.matchFindStrictMode(PATTERN_F, seg)) {
                 seg = seg.replaceAll(PATTERN_F, "");
                 Log.e("VideoNameTAG", "F=>" + seg);
-                if(StringUtils.matchFindStrictMode(PATTERN_C_PREFIX,seg))
+                if (StringUtils.matchFindStrictMode(PATTERN_C_PREFIX, seg))
                     break;
-                if(StringUtils.matchFindStrictMode(PATTERN_D,seg))
+                if (StringUtils.matchFindStrictMode(PATTERN_D, seg))
                     break;
             }
             if (StringUtils.matchFindStrictMode(PATTERN_B, seg))
@@ -241,167 +234,16 @@ public class VideoNameParser2 {
                 mInfo.pushPattern("D");
 
 //        先处理C
-            if(mInfo.containPattern("C")){
-                String[] results=matcher(PATTERN_C,seg);
-                if(results.length==3) {
-                    mInfo.setName(results[1]);
-                    String year_or_episode=results[2];
-                    int year = Year.parser(year_or_episode);
-                    if (year > 0) {
-                        mInfo.setYear(year);
-                    }
+//            if (mInfo.containPattern("C")) {
+//                processPatternC(PATTERN_C,seg);
+//            }
 
-
-                    Episodes episodes=Episodes.parser(year_or_episode);
-                    mInfo.setSeason(episodes.season);
-                    mInfo.setEpisode(episodes.episode);
-                    if(episodes.toEpisode>0){
-                        mInfo.setEpisode(episodes.toEpisode);
-                    }
-                    Log.e(TAGK,results[1]+","+results[2]);
-                }
-
-                if (seg.lastIndexOf(".") > -1) {
-                    seg = seg.substring(0, seg.lastIndexOf("."));//remove "."
-                }
-
-                String[] sourcePrefix = matcher("\\[(.*?)\\]", seg);
-                ArrayList<String> removeWords=new ArrayList<>();
-                if (sourcePrefix != null && sourcePrefix.length > 0) {
-                    for (int i = 0; i < (sourcePrefix.length) / 2; i++) {
-
-                        String key = sourcePrefix[i * 2];
-                        String value = sourcePrefix[i * 2 + 1];
-                        //Log.v("sjfq", "key:"+key);
-
-                        if (StringUtils.hasHttpUrl(value)) {
-                            //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        Country country = Country.parser(value);
-                        if (country != null) {
-                            //Log.v("sjfq", "setCountry removeWords:"+key);
-                            mInfo.setCountry(country.code);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        int year = Year.parser(value);
-                        if (year > 0) {
-                            //Log.v("sjfq", "Year removeWords:"+key);
-                            mInfo.setYear(year);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        Resolution resolution = Resolution.parser(value);
-                        if (resolution != null) {
-                            //Log.v("sjfq", "resolution removeWords:"+key);
-                            mInfo.pushTag(resolution.tag);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-
-                        VideoCodec videoCodec = VideoCodec.parser(value);
-                        if (videoCodec != null) {
-                            mInfo.setVideoCodec(videoCodec.codec);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        AudioCodec audioCodec = AudioCodec.parser(value);
-                        if (audioCodec != null) {
-                            mInfo.setAudioCodec(audioCodec.codec);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        FileSize fileSize = FileSize.parser(value);
-                        if (fileSize != null) {
-                            mInfo.setFileSize(fileSize.size);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        if (SubTitle.parser(value)) {
-                            //Log.v("sjfq", "SubTitle removeWords:"+key);
-                            removeWords.add(key);
-                            continue;
-                        }
-
-                        OtherItem otherItem = OtherItem.parser(value);
-                        if (otherItem != null) {
-                            mInfo.pushTag(otherItem.tag);
-                            removeWords.add(key);
-                            continue;
-                        }
-                    }
-                }
+            if (mInfo.containPattern("C2")) {
+                processPatternC(PATTERN_C2,seg);
             }
 
-            if(true)
+            if (true)
                 return mInfo;
-
-
-
-
-
-            Country country = Country.parser(seg);
-            if (country != null) {
-                //Log.v("sjfq", "setCountry removeWords:"+key);
-                mInfo.setCountry(country.code);
-            }
-
-            int year = Year.parser(seg);
-            if (year > 0) {
-                //Log.v("sjfq", "Year removeWords:"+key);
-                mInfo.setYear(year);
-            }
-
-            Episode episode = Episode.parser(seg);
-            if (episode != null) {
-                //Log.v("sjfq", "Episode removeWords:"+key);
-                mInfo.setEpisode(episode.episode);
-                mInfo.setSeason(episode.season);
-            }
-
-            Resolution resolution = Resolution.parser(seg);
-            if (resolution != null) {
-                //Log.v("sjfq", "resolution removeWords:"+key);
-                mInfo.pushTag(resolution.tag);
-            }
-
-
-            VideoCodec videoCodec = VideoCodec.parser(seg);
-            if (videoCodec != null) {
-                mInfo.setVideoCodec(videoCodec.codec);
-            }
-
-            AudioCodec audioCodec = AudioCodec.parser(seg);
-            if (audioCodec != null) {
-                mInfo.setAudioCodec(audioCodec.codec);
-            }
-
-            FileSize fileSize = FileSize.parser(seg);
-            if (fileSize != null) {
-                mInfo.setFileSize(fileSize.size);
-            }
-
-            Source source = Source.parser(seg);
-            if (source != null) {
-                mInfo.pushTag(source.name);
-            }
-            if (SubTitle.parser(seg)) {
-                //Log.v("sjfq", "SubTitle removeWords:"+key);
-            }
-
-            OtherItem otherItem = OtherItem.parser(seg);
-            if (otherItem != null) {
-                mInfo.pushTag(otherItem.tag);
-            }
         }
 
 
@@ -763,6 +605,119 @@ public class VideoNameParser2 {
         return mInfo;
     }
 
+
+    private void processPatternC(String PATTERN_C,String seg){
+        String[] results = matcher(PATTERN_C, seg);
+        String name = "";
+        String year_or_episode = "";
+        if (results.length == 3) {
+            name = results[1];
+            year_or_episode = results[2];
+        }
+        //名字
+        mInfo.setName(name);
+        //year
+        int year = Year.parser(year_or_episode);
+        if (year > 0) {
+            mInfo.setYear(year);
+        }
+        //episode
+        Episodes episodes = Episodes.parser(year_or_episode);
+        mInfo.setSeason(episodes.season);
+        if (mInfo.getYear() != episodes.episode) {
+            mInfo.setEpisode(episodes.episode);
+            if (episodes.toEpisode > 0) {
+                mInfo.setEpisode(episodes.toEpisode);
+            }
+        }
+
+        if (StringUtils.matchFind(PATTERN_C, seg)) {
+            String[] matches = StringUtils.matcher(PATTERN_C, seg);
+            if (seg.startsWith(matches[0]))
+                seg = seg.replace(matches[0], "");
+        }
+
+
+        if (seg.lastIndexOf(".") > -1) {
+            seg = seg.substring(0, seg.lastIndexOf("."));//remove "."
+        }
+
+        String[] sourcePrefix = matcher("\\[(.*?)\\]", seg);
+        ArrayList<String> removeWords = new ArrayList<>();
+        if (sourcePrefix != null && sourcePrefix.length > 0) {
+            for (int i = 0; i < (sourcePrefix.length) / 2; i++) {
+
+                String key = sourcePrefix[i * 2];
+                String value = sourcePrefix[i * 2 + 1];
+                //Log.v("sjfq", "key:"+key);
+
+                if (StringUtils.hasHttpUrl(value)) {
+                    //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                Country country = Country.parser(value);
+                if (country != null) {
+                    //Log.v("sjfq", "setCountry removeWords:"+key);
+                    mInfo.setCountry(country.code);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                year = Year.parser(value);
+                if (year > 0) {
+                    //Log.v("sjfq", "Year removeWords:"+key);
+                    mInfo.setYear(year);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                Resolution resolution = Resolution.parser(value);
+                if (resolution != null) {
+                    //Log.v("sjfq", "resolution removeWords:"+key);
+                    mInfo.pushTag(resolution.tag);
+                    removeWords.add(key);
+                    continue;
+                }
+
+
+                VideoCodec videoCodec = VideoCodec.parser(value);
+                if (videoCodec != null) {
+                    mInfo.setVideoCodec(videoCodec.codec);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                AudioCodec audioCodec = AudioCodec.parser(value);
+                if (audioCodec != null) {
+                    mInfo.setAudioCodec(audioCodec.codec);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                FileSize fileSize = FileSize.parser(value);
+                if (fileSize != null) {
+                    mInfo.setFileSize(fileSize.size);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                if (SubTitle.parser(value)) {
+                    //Log.v("sjfq", "SubTitle removeWords:"+key);
+                    removeWords.add(key);
+                    continue;
+                }
+
+                OtherItem otherItem = OtherItem.parser(value);
+                if (otherItem != null) {
+                    mInfo.pushTag(otherItem.tag);
+                    removeWords.add(key);
+                    continue;
+                }
+            }
+        }
+    }
     /*
      * Test for a year in the name
      * */
