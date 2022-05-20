@@ -96,8 +96,8 @@ public class Episodes {
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
 
-        if (episodes.episode == 0) {
-            regex = build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "?(\\d+)";
+        if (episodes.episode == 0 && !input.contains("x265") &&!input.contains("x264")) {
+            regex = "^" + build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "(\\d+)";
             Log.v("sjfqq", "regex:" + regex);
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
@@ -110,6 +110,7 @@ public class Episodes {
                 }
             }
         }
+
 
         regex = "(\\d+)@?" +
                 build_or_pattern(SEASON_EP_MARKERS) +
@@ -180,6 +181,20 @@ public class Episodes {
                 episodes.season = Integer.parseInt(dotStampMatch[1]);
             }
         }
+
+        if (episodes.episode == 0) {
+            regex = "^\\d+$";
+            Log.v("sjfqq", "regex:" + regex);
+            dotStampMatch = StringUtils.matcher(regex, input);
+            StringUtils.debug(dotStampMatch);
+            if (dotStampMatch != null && dotStampMatch.length == 1) {
+                episodes.episode = Integer.parseInt(dotStampMatch[0]);
+            }
+        }
+
+
+        if (episodes.episode != 0 && episodes.season == 0)
+            episodes.season = 1;
         return episodes;
     }
 

@@ -30,6 +30,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
+
 //        debug2("[BD影视分享bd2020.co]青春变形记.Turning.Red.2022.AAC5.1.HD1080P.国粤英三语.中字.mp4");
 //        debug2("蜘Z侠：Y雄无归.Spitder.Man.No.Way.Home.2021.BD720P.X264.AAC.English.CHS-ENG.BDYS.mp4");
 //        debug2("Death.Note.TV.2006.DVDRip.Ep03.Rev2.x264.AC3-Jina");
@@ -59,9 +60,9 @@ public class ExampleInstrumentedTest {
 //        debug2("The.Jungle.Book.2016.1080p.3D.BluRay.AVC.DTS-HD.MA.7.1-FGT.iso");
 //        debug2("The Jungle Book 2020.mp4");
 //        debug2("Halo.S01E01-04.2160p.WEB-DL.DDP5.1.Atmos.DV.MP4.x265-DVSUX[rartv]");
-        debug2("雪中悍刀行[全38集][国语配音+中文字幕].Sword.Snow.Stride.S01.2021.2160p.WEB-DL.AAC.H265-EntWEB");
+//        debug2("雪中悍刀行[全38集][国语配音+中文字幕].Sword.Snow.Stride.S01.2021.2160p.WEB-DL.AAC.H265-EntWEB");
 //        debug2("Sword,Snow,Stride.EP01-38.2021.1080p.50FPS.HDR.WEB-DL.HEVC.AAC.10bit-HQC");
-//        debug2("Sword,Snow,Stride.EP01-06.2021.1080p.WEB-DL.x264.AAC-HQC");
+        debug2("Sword,Snow,Stride.EP01-06.2021.1080p.WEB-DL.x264.AAC-HQC");
 //        debug2("Penthouse.S03E01.HD1080P.X264.AAC.Korean.CHS.BDE4.mp4");
 //        debug2("鱿鱼游戏.Squid.Game.2021.EP01.HD1080P.X264.AAC.Korean.CHS.Mp4er.mp4");
 //        debug2("致命女人.Why.Women.Kill.S01.S01E01.HD1080P.X264.AAC.English.CHS-ENG.mp4");
@@ -69,25 +70,25 @@ public class ExampleInstrumentedTest {
 //        debug2("[SBSUB][CONAN][988][1080P][AVC_AAC][CHS_JP](00B82A9E).mp4");
 //        debug2("[VCB-Studio] Himouto! Umaru-chan [01][Ma10p_1080p][x265_2flac].mkv");
 //        debug2("[LoliHouse] Tenki No Ko [BDRip 3840x2160 HEVC-10bit HDR FLAC PGS(chs,eng,jpn)].mkv");
-//        debug2("阳光电影ygdy8.北欧人.2022.BD.1080P.中英双字.mkv");
+        debug2("阳光电影ygdy8.北欧人.2022.BD.1080P.中英双字.mkv");
 //        debug2("www.dgy8.com[房子][House][2022][BD][1080P].mp4");
-//        debug2("www.dgy8.com[房子][第一季][BD][1080P].mp4");
-//        debug2("www.dgy8.com[房子][S01E03][BD][1080P].mp4");
+        debug2("www.dgy8.com[房子][第一季][BD][1080P].mp4");
+        debug2("www.dgy8.com[房子][S01E03][BD][1080P].mp4");
 //        debug2("www.dgy8.com[房子][Ep03][BD][1080P].mp4");
-//
-//        debug2("[BD影视分享bd2020.co]青春变形记.Turning.Red.2022.AAC5.1.HD1080P.国粤英三语.中字.mp4");
+        debug2("阳光电影www.ygdy8.com[房子][S01E03][BD][1080P].mp4");
+        debug2("阳光电影.www.dgy8.com.房子.2022.BD.1080P.mp4");
 //        debug2("[BT乐园.bt606.com]名侦探洪吉童:消失的村庄2016.HD720P.X264.AAC.韩语中字.mp4");
-//        debug2("www.dgy8.com.房子.2022.BD.1080P.mp4");
+        debug2("www.dgy8.com.房子.2022.BD.1080P.mp4");
 //        debug2("[動漫國字幕組]01月新番[輝夜姬想讓人告白_天才們的戀愛頭腦戰_][01][720P][繁體][MP4]");
 //        debug2("[蚂蚁网www.mayi.tw]审死官CD2.mp4");
 //        debug2("[远鉴字幕组andOrange字幕组]金蝉脱壳2【蓝光版特效中英双字】Escape.Plan.2.Hades.2018.1080p.BluRay.x264.DTS-HDC@CHDbits.mkv");
 //        debug2("[Mobile Suit Gundam Seed Destiny HD REMASTER][46][Big5][720p][AVC_AAC][encoded by SEED].mp4");
-//        debug2("BT乐园.bt606.co.名侦探洪吉童:消失的村庄2016.HD720P.X264.AAC.韩语中字.mp4");
+        debug2("BT乐园.bt606.co.名侦探洪吉童:消失的村庄2016.HD720P.X264.AAC.韩语中字.mp4");
 //        debug2("[domp4]北o人.2022.HD1080p.中英双字.mp4 ");
 //        debug2("The.Batman.2022.2160p.MA.WEB-DL.DDP5.1.Atmos.DV.MP4.x265-DVSUX.mkv");
 //        debug2("The_Batman_2022_2160p_MA_WEB-DL_DDP5.1_Atmos_DV_MP4_x265-DVSUX.mkv");
-//        debug2("北欧人.The.north.man.2022.BD.1080P.mp4");
-//        debug2("北欧人.2022.BD.1080P.中英双字.mkv");
+        debug2("北欧人.The.north.man.2022.BD.1080P.mp4");
+        debug2("北欧人.2022.BD.1080P.中英双字.mkv");
 //        Episodes.parser("第1集");
 //        Episodes.parser("第一百五十六集");
 //        Episodes.parser("壹");

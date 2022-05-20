@@ -212,7 +212,7 @@ public class MovieNameInfo {
     }
 
     public boolean containPatterns(String... patterns) {
-        if (patterns == null)
+        if (this.patterns == null)
             return false;
         for (String pattern : patterns) {
             if (!this.patterns.contains(pattern))
