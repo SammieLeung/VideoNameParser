@@ -255,6 +255,20 @@ public class VideoNameParser2 {
             //可能是剧集
             if(mInfo.containPattern("A")){
                 parserYear(seg);
+                if(StringUtils.matchFindStrictMode(PATTERN_SEASON_OR_EPISODE_OR_YEAR,seg)){
+                    Episodes episodes = Episodes.parser(seg);
+                    if (episodes != null) {
+                        if (episodes.season != 0)
+                            mInfo.setSeason(episodes.season);
+                        if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                            mInfo.setEpisode(episodes.episode);
+                            if (episodes.toEpisode > 0) {
+                                mInfo.setEpisode(episodes.toEpisode);
+                            }
+                            continue;
+                        }
+                    }
+                }
             }
 
 
