@@ -133,6 +133,10 @@ public class MovieNameInfo {
                 this.name_cn = name;
             }
         }
+        if (this.name != null)
+            this.name = this.name.trim();
+        if (this.name_cn != null)
+            this.name_cn = this.name_cn.trim();
     }
 
     public String getAired() {
@@ -207,6 +211,12 @@ public class MovieNameInfo {
 
     public boolean containPattern(String pattern) {
         if (patterns != null)
+            return patterns.contains(pattern);
+        return false;
+    }
+
+    public boolean onlyContainPattern(String pattern) {
+        if (patterns != null && patterns.size() == 1)
             return patterns.contains(pattern);
         return false;
     }

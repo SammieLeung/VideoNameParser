@@ -83,7 +83,7 @@ public class StringUtils {
 						+ "((/?)|" // a slash isn't required if there is no file name    
 						+ "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";   
 
-				Pattern p = Pattern.compile(regex);  
+				Pattern p = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
 				Matcher matcher = p.matcher(tempurl);  
 				if(matcher.find())
 					return true;
