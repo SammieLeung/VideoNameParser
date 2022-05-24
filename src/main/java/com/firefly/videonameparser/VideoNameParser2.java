@@ -899,6 +899,7 @@ public class VideoNameParser2 {
         }
 
         seg = seg.replaceAll("\\.|-|;|_", " ");
+        seg = seg.replaceAll("([a-z])([A-Z])","$1 $2");
         segSplit = seg.split(SEGMENTS_SPLIT);
 
         /* No need to go further;  */
@@ -923,7 +924,6 @@ public class VideoNameParser2 {
         //Log.v(TAG, "nameParts.size():"+nameParts.size());
         if (nameParts.size() == 0)
             nameParts.add(seg);
-//			if (nameParts.size() == 1 && !isNaN(nameParts.get(0))) break; /* Only a number: unacceptable */
 
         ArrayList<String> parts = new ArrayList<String>();
         for (String part : nameParts) {

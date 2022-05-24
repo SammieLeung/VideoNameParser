@@ -85,12 +85,10 @@ public class Episodes {
     public static Episodes parser(String input) {
         if (TextUtils.isEmpty(input)) return null;
         input=input.trim();
-        Log.v("sjfqq", "input:" + input);
         Episodes episodes = new Episodes(0, 0);
 
         String regex = build_or_pattern(SEASON_MARKERS, SEASON_WORDS) + "(\\d+)?" +
                 build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "?(\\d+)";
-        Log.v("sjfqq", "regex:" + regex);
         String[] dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
@@ -101,7 +99,6 @@ public class Episodes {
 
         if (episodes.episode == 0 && !input.contains("x265") &&!input.contains("x264")) {
             regex = "^" + build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "(\\d+)";
-            Log.v("sjfqq", "regex:" + regex);
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null) {
@@ -121,7 +118,6 @@ public class Episodes {
         regex = "(\\d+)@?" +
                 build_or_pattern(SEASON_EP_MARKERS) +
                 "@?(\\d+)";
-        Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
@@ -131,7 +127,6 @@ public class Episodes {
         }
 
         regex = build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "(\\d+)" + build_or_pattern(RANGE_SEPARATORS) + "(\\d+)";
-        Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
@@ -141,7 +136,6 @@ public class Episodes {
         }
 
         regex = "(\\d+)" + build_or_pattern(SEASON_EP_MARKERS) + "(\\d+)";
-        Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
@@ -151,7 +145,6 @@ public class Episodes {
         }
 
         regex = "[全共]([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[集话話章]";
-        Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
@@ -167,7 +160,6 @@ public class Episodes {
         }
 
         regex = "第([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[集话話章]";
-        Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
@@ -181,7 +173,6 @@ public class Episodes {
         }
 
         regex = "第([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[部季]";
-        Log.v("sjfqq", "regex:" + regex);
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
@@ -196,7 +187,6 @@ public class Episodes {
 
         if (episodes.episode == 0) {
             regex = "^\\d{2,}$";
-            Log.v("sjfqq", "regex:" + regex);
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null && dotStampMatch.length == 1) {
