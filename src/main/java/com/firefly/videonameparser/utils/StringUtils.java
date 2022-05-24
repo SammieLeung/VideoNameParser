@@ -41,26 +41,24 @@ public class StringUtils {
 		return str; 
 	}
 
-	public static boolean hasGB2312(String str) {
-		for (int i = 0; i < str.length(); i++) {
-			String bb = str.substring(i, i + 1);
-			// 生成一个Pattern,同时编译一个正则表达式,其中的u4E00("一"的unicode编码)-\u9FA5("龥"的unicode编码)
-			boolean cc = java.util.regex.Pattern.matches("[\u4E00-\u9FA5]", bb);
-			if(cc)
-				return true;
-		}
-		return false;
+
+	public static boolean matchGB2312(String str) {
+		String regex="[\\u4e00-\\u9fa5]+";
+		Pattern pattern=Pattern.compile(regex);
+		Matcher matcher=pattern.matcher(str);
+		return matcher.find();
 	}
 
-	public static String getOnlyGB2312(String str){
-		StringBuffer sb=new StringBuffer();
-		for(char c:str.toCharArray()){
-			if('\u4E00'<=c&&c<='\u9F45'){
+	public static String getOnlyGB2312AndInt(String str) {
+		StringBuffer sb = new StringBuffer();
+		for (char c : str.toCharArray()) {
+			if (('\u4E00' <= c && c <= '\u9F45')||('0'<=c&&c<='9')) {
 				sb.append(c);
 			}
 		}
 		return sb.toString();
 	}
+
 
 	public static boolean hasHttpUrl(String str) {
 		if(TextUtils.isEmpty(str)) return false;

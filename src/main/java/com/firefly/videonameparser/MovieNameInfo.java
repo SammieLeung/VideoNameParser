@@ -112,27 +112,29 @@ public class MovieNameInfo {
     }
 
     public void setName(String name) {
+        if (TextUtils.isEmpty(name))
+            return;
         String[] nameParts = name.split(" ");
-        if (nameParts.length == 1) {
+        StringBuffer sb_cn = new StringBuffer();
+        if (StringUtils.matchGB2312(name)) {
+            for (String namePart : nameParts) {
+                if (StringUtils.matchGB2312(namePart)) {
+                    sb_cn.append(StringUtils.getOnlyGB2312AndInt(namePart));
+                }
+            }
+            this.name_cn = sb_cn.toString();
+            if (nameParts.length == 1) {
+                this.name = this.name_cn;
+            } else if (name.length() - 1 == name.indexOf(sb_cn.charAt(sb_cn.length() - 1))) {
+                this.name = name_cn;
+            } else {
+                this.name = name.substring(name.indexOf(sb_cn.charAt(sb_cn.length() - 1)) + 1).trim();
+            }
+        } else {
             this.name = name;
             this.name_cn = name;
-        } else {
-            StringBuffer sb_cn = new StringBuffer();
-            if (StringUtils.hasGB2312(nameParts[0])) {
-                for (int i = 0; i < nameParts.length; i++) {
-                    sb_cn.append(StringUtils.getOnlyGB2312(nameParts[i]));
-                }
-                this.name_cn = sb_cn.toString();
-                if (name.length() - 1 == name.indexOf(sb_cn.charAt(sb_cn.length() - 1))) {
-                    this.name = name_cn;
-                } else {
-                    this.name = name.substring(name.indexOf(sb_cn.charAt(sb_cn.length() - 1)) + 1).trim();
-                }
-            } else {
-                this.name = name;
-                this.name_cn = name;
-            }
         }
+
         if (this.name != null)
             this.name = this.name.trim();
         if (this.name_cn != null)

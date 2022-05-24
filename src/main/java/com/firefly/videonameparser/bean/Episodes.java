@@ -83,6 +83,7 @@ public class Episodes {
 
     public static Episodes parser(String input) {
         if (TextUtils.isEmpty(input)) return null;
+        input=input.trim();
         Log.v("sjfqq", "input:" + input);
         Episodes episodes = new Episodes(0, 0);
 
@@ -183,7 +184,7 @@ public class Episodes {
         }
 
         if (episodes.episode == 0) {
-            regex = "^\\d+$";
+            regex = "^\\d{2,}$";
             Log.v("sjfqq", "regex:" + regex);
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
@@ -233,6 +234,12 @@ public class Episodes {
         result.append(")");
         if (result.length() == 0) return null;
         return result.toString();
+    }
+
+    public boolean saneEpisodes(){
+        if(episode!=0||season!=0||toEpisode!=0)
+            return true;
+        return false;
     }
 
     @Override
