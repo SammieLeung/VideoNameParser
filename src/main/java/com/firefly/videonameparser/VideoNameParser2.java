@@ -286,7 +286,7 @@ public class VideoNameParser2 {
                                 mInfo.setEpisode(episodes.toEpisode);
                             }
                         }
-                        if (episodes.saneEpisodes()) {
+                        if (episodes.isMatch()||episodes.saneEpisodes()) {
                             String[] matchers = StringUtils.matcher(regex, seg);
                             if (matchers != null)
                                 seg = seg.replace(matchers[0], "");
@@ -584,16 +584,13 @@ public class VideoNameParser2 {
 
         seg = seg.replaceAll("[\\[\\]]", " ").trim();
         String[] keywords = seg.split(SEGMENTS_SPLIT);
-        ArrayList<String> removeKeywords = new ArrayList();
         for (String keyword : keywords) {
             if (StringUtils.hasHttpUrl(keyword)) {
-                removeKeywords.add(keyword);
                 continue;
             }
 
             Country country = Country.parser(keyword);
             if (country != null) {
-                removeKeywords.add(keyword);
                 mInfo.setCountry(country.code);
                 continue;
             }
@@ -608,8 +605,9 @@ public class VideoNameParser2 {
                         mInfo.setEpisode(episodes.toEpisode);
                     }
                 }
-                if (episodes.saneEpisodes()) {
-                    removeKeywords.add(keyword);
+                if (episodes.isMatch()) {
+                    continue;
+                }else if(episodes.saneEpisodes()){
                     continue;
                 }
             }
@@ -617,7 +615,6 @@ public class VideoNameParser2 {
             Resolution resolution = Resolution.parser(keyword);
             if (resolution != null) {
                 //Log.v("sjfq", "resolution removeWords:"+key);
-                removeKeywords.add(keyword);
                 mInfo.pushTag(resolution.tag);
                 continue;
             }
@@ -626,33 +623,28 @@ public class VideoNameParser2 {
             VideoCodec videoCodec = VideoCodec.parser(keyword);
             if (videoCodec != null) {
                 mInfo.setVideoCodec(videoCodec.codec);
-                removeKeywords.add(keyword);
                 continue;
             }
 
             AudioCodec audioCodec = AudioCodec.parser(keyword);
             if (audioCodec != null) {
                 mInfo.setAudioCodec(audioCodec.codec);
-                removeKeywords.add(keyword);
                 continue;
             }
 
             FileSize fileSize = FileSize.parser(keyword);
             if (fileSize != null) {
                 mInfo.setFileSize(fileSize.size);
-                removeKeywords.add(keyword);
                 continue;
             }
 
             if (SubTitle.parser(keyword)) {
                 //Log.v("sjfq", "SubTitle removeWords:"+key);
-                removeKeywords.add(keyword);
                 continue;
             }
 
             OtherItem otherItem = OtherItem.parser(keyword);
             if (otherItem != null) {
-                removeKeywords.add(keyword);
                 if (!otherItem.tag.equals("WEB"))
                     mInfo.pushTag(otherItem.tag);
                 continue;
@@ -717,7 +709,10 @@ public class VideoNameParser2 {
                             mInfo.setEpisode(episodes.toEpisode);
                         }
                     }
-                    if (episodes.saneEpisodes()) {
+                    if (episodes.isMatch()) {
+                        removeWords.add(episodes.getMatchString());
+                        continue;
+                    }else if(episodes.saneEpisodes()){
                         removeWords.add(value);
                         continue;
                     }
@@ -830,7 +825,10 @@ public class VideoNameParser2 {
                         mInfo.setEpisode(episodes.toEpisode);
                     }
                 }
-                if (episodes.saneEpisodes()) {
+                if (episodes.isMatch()) {
+                    removeWords.add(episodes.getMatchString());
+                    continue;
+                }else if(episodes.saneEpisodes()){
                     removeWords.add(value);
                     continue;
                 }

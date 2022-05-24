@@ -9,6 +9,7 @@ public class Episodes {
     public int season = 0;
     public int episode = 0;
     public int toEpisode = 0;
+    private String mMatchString="";
 
     private static final int SEASON_MAX_RANGE = 100;
     private static final int EPISODE_MAX_RANGE = 100;
@@ -93,6 +94,7 @@ public class Episodes {
         String[] dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
+            episodes.mMatchString=dotStampMatch[0];
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -103,9 +105,12 @@ public class Episodes {
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null) {
-                if (dotStampMatch.length == 2)
+                if (dotStampMatch.length == 2) {
+                    episodes.mMatchString=dotStampMatch[0];
                     episodes.episode = Integer.parseInt(dotStampMatch[1]);
+                }
                 if (dotStampMatch.length == 4) {
+                    episodes.mMatchString=dotStampMatch[0];
                     episodes.episode = Integer.parseInt(dotStampMatch[1]);
                     episodes.toEpisode = Integer.parseInt(dotStampMatch[3]);
                 }
@@ -120,6 +125,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
+            episodes.mMatchString=dotStampMatch[0];
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -129,6 +135,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
+            episodes.mMatchString=dotStampMatch[0];
             episodes.episode = Integer.parseInt(dotStampMatch[1]);
             episodes.toEpisode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -138,6 +145,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
+            episodes.mMatchString=dotStampMatch[0];
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -147,6 +155,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
+            episodes.mMatchString=dotStampMatch[0];
             String numStr = dotStampMatch[1];
             if (StringUtils.checkChina(numStr)) {
                 episodes.episode = 1;
@@ -162,6 +171,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
+            episodes.mMatchString=dotStampMatch[0];
             String numStr = dotStampMatch[1];
             if (StringUtils.checkChina(numStr)) {
                 episodes.episode = (int) StringUtils.ch2Num(numStr);
@@ -175,6 +185,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
+            episodes.mMatchString=dotStampMatch[0];
             String numStr = dotStampMatch[1];
             if (StringUtils.checkChina(numStr)) {
                 episodes.season = (int) StringUtils.ch2Num(numStr);
@@ -189,8 +200,16 @@ public class Episodes {
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null && dotStampMatch.length == 1) {
+                episodes.mMatchString=dotStampMatch[0];
                 episodes.episode = Integer.parseInt(dotStampMatch[0]);
             }
+        }
+
+        regex="[上中下]$";
+        dotStampMatch = StringUtils.matcher(regex, input);
+        StringUtils.debug(dotStampMatch);
+        if (dotStampMatch != null && dotStampMatch.length == 1) {
+            episodes.mMatchString=dotStampMatch[0];
         }
 
 
@@ -240,6 +259,14 @@ public class Episodes {
         if(episode!=0||season!=0||toEpisode!=0)
             return true;
         return false;
+    }
+
+    public boolean isMatch(){
+        return !TextUtils.isEmpty(mMatchString);
+    }
+
+    public String getMatchString() {
+        return mMatchString;
     }
 
     @Override

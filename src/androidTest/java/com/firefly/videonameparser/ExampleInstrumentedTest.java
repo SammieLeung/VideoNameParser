@@ -30,7 +30,9 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
-
+        debug2("超能勇士S01E08：双重间谍.mkv");
+        debug2("猛兽侠S01E06：乘人之危.mkv");
+        debug2("超能勇士S01E17：一触即发（下）.mkv");
         debug2("[远鉴字幕组&Orange字幕组]金蝉脱壳2【蓝光版特效中英双字】Escape.Plan.2.Hades.2018.1080p.BluRay.x264.DTS-HDC@CHDbits.mkv");
 
         debug2("[BD影视分享bd2020.co]青春变形记.Turning.Red.2022.AAC5.1.HD1080P.国粤英三语.中字.mp4");
