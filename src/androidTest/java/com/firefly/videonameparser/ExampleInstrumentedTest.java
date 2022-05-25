@@ -30,10 +30,14 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
-        debug2("TheIrishman.mp4");
-//        debug2("超能勇士S01E08：双重间谍.mkv");
-//        debug2("猛兽侠S01E06：乘人之危.mkv");
-//        debug2("超能勇士S01E17：一触即发（下）.mkv");
+        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第5话.The.Commuter.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
+        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.S01E08.Autofac.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
+        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第一季第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
+        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第1季.第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
+//        debug2("TheIrishman.mp4");
+        debug2("超能勇士S01E08：双重间谍.mkv");
+        debug2("猛兽侠S01E06：乘人之危.mkv");
+        debug2("超能勇士S01E17：一触即发（下）.mkv");
 //        debug2("[远鉴字幕组&Orange字幕组]金蝉脱壳2【蓝光版特效中英双字】Escape.Plan.2.Hades.2018.1080p.BluRay.x264.DTS-HDC@CHDbits.mkv");
 //
 //        debug2("[BD影视分享bd2020.co]青春变形记.Turning.Red.2022.AAC5.1.HD1080P.国粤英三语.中字.mp4");
@@ -41,9 +45,9 @@ public class ExampleInstrumentedTest {
 //        debug2("Death.Note.TV.2006.DVDRip.Ep03.Rev2.x264.AC3-Jina");
 //        debug2("[dmhy][Death_Note][32].mp4");
 //        debug2("[Death_Note][06].mkv");
-//        debug2("西部世界第三季.mp4");
-//        debug2("新世纪福音战士：终.mp4");
-//        debug2("新世纪福音战士：终.mp4");
+        debug2("西部世界第三季.mp4");
+        debug2("新世纪福音战士：终.mp4");
+        debug2("新世纪福音战士：终.mp4");
 //        debug2("[迅雷下载www.xiamp4.com]铁血孤儿[第05话].mp4");
 //        debug2("狮子王.The.Lion.King.1994.BD1080P.X264.AAC.Mandarin&English.CHS-ENG.mp4");
 //        debug2("Braveheart.1995.2160p.BluRay.x265.10bit.SDR.DTS-HD.MA.TrueHD.7.1.Atmos-SWTYBLZ");

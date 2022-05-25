@@ -1,15 +1,16 @@
 package com.firefly.videonameparser.bean;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.firefly.videonameparser.utils.StringUtils;
+
+import java.util.ArrayList;
 
 public class Episodes {
     public int season = 0;
     public int episode = 0;
     public int toEpisode = 0;
-    private String mMatchString="";
+    private ArrayList<String> mMatchList =new ArrayList<>();
 
     private static final int SEASON_MAX_RANGE = 100;
     private static final int EPISODE_MAX_RANGE = 100;
@@ -92,7 +93,7 @@ public class Episodes {
         String[] dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
-            episodes.mMatchString=dotStampMatch[0];
+            episodes.mMatchList.add(dotStampMatch[0]);
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -103,11 +104,11 @@ public class Episodes {
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null) {
                 if (dotStampMatch.length == 2) {
-                    episodes.mMatchString=dotStampMatch[0];
+                     episodes.mMatchList.add(dotStampMatch[0]);
                     episodes.episode = Integer.parseInt(dotStampMatch[1]);
                 }
                 if (dotStampMatch.length == 4) {
-                    episodes.mMatchString=dotStampMatch[0];
+                     episodes.mMatchList.add(dotStampMatch[0]);
                     episodes.episode = Integer.parseInt(dotStampMatch[1]);
                     episodes.toEpisode = Integer.parseInt(dotStampMatch[3]);
                 }
@@ -121,7 +122,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -130,7 +131,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
             episodes.episode = Integer.parseInt(dotStampMatch[1]);
             episodes.toEpisode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -139,7 +140,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
@@ -148,7 +149,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
             String numStr = dotStampMatch[1];
             if (StringUtils.checkChina(numStr)) {
                 episodes.episode = 1;
@@ -163,7 +164,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
             String numStr = dotStampMatch[1];
             if (StringUtils.checkChina(numStr)) {
                 episodes.episode = (int) StringUtils.ch2Num(numStr);
@@ -176,7 +177,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 2) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
             String numStr = dotStampMatch[1];
             if (StringUtils.checkChina(numStr)) {
                 episodes.season = (int) StringUtils.ch2Num(numStr);
@@ -190,7 +191,7 @@ public class Episodes {
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null && dotStampMatch.length == 1) {
-                episodes.mMatchString=dotStampMatch[0];
+                 episodes.mMatchList.add(dotStampMatch[0]);
                 episodes.episode = Integer.parseInt(dotStampMatch[0]);
             }
         }
@@ -199,7 +200,7 @@ public class Episodes {
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 1) {
-            episodes.mMatchString=dotStampMatch[0];
+             episodes.mMatchList.add(dotStampMatch[0]);
         }
 
 
@@ -252,11 +253,11 @@ public class Episodes {
     }
 
     public boolean isMatch(){
-        return !TextUtils.isEmpty(mMatchString);
+        return mMatchList.size()>0;
     }
 
-    public String getMatchString() {
-        return mMatchString;
+    public ArrayList<String> getMatchList() {
+        return mMatchList;
     }
 
     @Override

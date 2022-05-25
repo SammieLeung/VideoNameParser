@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.firefly.videonameparser.bean.AudioCodec;
 import com.firefly.videonameparser.bean.Country;
-import com.firefly.videonameparser.bean.Episode;
 import com.firefly.videonameparser.bean.Episodes;
 import com.firefly.videonameparser.bean.FileSize;
 import com.firefly.videonameparser.bean.OtherItem;
@@ -195,7 +194,10 @@ public class VideoNameParser2 {
                 .replaceAll("\\(|\\{", "\\[")
                 .replaceAll("\\)|\\}", "\\]")
                 .replaceAll("/\\([^\\(]+\\)$/", "") // remove brackets at end
-                .replaceAll("/&/g", "and");
+                .replaceAll("/&/g", "and")
+                .replaceAll("(\\D)[257].[01]", "$1")
+                .replaceAll("([Hh]).(26[45])", "$1$2");
+
         return name;
         //.split(" ").filter(function(r){return r}).join(" ")
     }
@@ -274,25 +276,25 @@ public class VideoNameParser2 {
 
             if (mInfo.onlyContainPattern("A")) {
                 parserYear(seg);
-                String regex = "[\\.| |_]" + PATTERN_SEASON_OR_EPISODE_OR_YEAR;
-                if (StringUtils.matchFindStrictMode(regex, seg)) {
-                    Episodes episodes = Episodes.parser(seg);
-                    if (episodes != null) {
-                        if (episodes.season != 0)
-                            mInfo.setSeason(episodes.season);
-                        if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
-                            mInfo.setEpisode(episodes.episode);
-                            if (episodes.toEpisode > 0) {
-                                mInfo.setEpisode(episodes.toEpisode);
-                            }
-                        }
-                        if (episodes.isMatch()||episodes.saneEpisodes()) {
-                            String[] matchers = StringUtils.matcher(regex, seg);
-                            if (matchers != null)
-                                seg = seg.replace(matchers[0], "");
-                        }
-                    }
-                }
+//                String regex = "[\\.| |_]" + PATTERN_SEASON_OR_EPISODE_OR_YEAR;
+//                if (StringUtils.matchFindStrictMode(regex, seg)) {
+//                    Episodes episodes = Episodes.parser(seg);
+//                    if (episodes != null) {
+//                        if (episodes.season != 0)
+//                            mInfo.setSeason(episodes.season);
+//                        if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+//                            mInfo.setEpisode(episodes.episode);
+//                            if (episodes.toEpisode > 0) {
+//                                mInfo.setEpisode(episodes.toEpisode);
+//                            }
+//                        }
+//                        if (episodes.isMatch() || episodes.saneEpisodes()) {
+//                            String[] matchers = StringUtils.matcher(regex, seg);
+//                            if (matchers != null)
+//                                seg = seg.replace(matchers[0], "");
+//                        }
+//                    }
+//                }
 
                 processPatternA(seg);
             }
@@ -439,6 +441,11 @@ public class VideoNameParser2 {
             } else {
                 mInfo.setType(MovieNameInfo.TYPE_OTHER);
             }
+            if (mInfo.getType().equals(MovieNameInfo.TYPE_SERIES) || mInfo.getType().equals(MovieNameInfo.TYPE_EXTRAS)) {
+                String name = mInfo.getName();
+                name = name.replaceFirst("(.*):.*", "$1");
+                mInfo.setName(name);
+            }
         } else {
             mInfo.setType(MovieNameInfo.TYPE_OTHER);
         }
@@ -539,8 +546,6 @@ public class VideoNameParser2 {
 
                 OtherItem otherItem = OtherItem.parser(value);
                 if (otherItem != null) {
-                    if (!otherItem.tag.equals("WEB"))
-                        mInfo.pushTag(otherItem.tag);
                     continue;
                 }
             }
@@ -579,8 +584,6 @@ public class VideoNameParser2 {
             seg = seg.substring(0, seg.lastIndexOf("."));//remove "."
         }
 
-        seg = seg.replaceAll("(\\D)5.1", "$1");
-        seg = seg.replaceAll("(\\D)7.1", "$1");
 
         seg = seg.replaceAll("[\\[\\]]", " ").trim();
         String[] keywords = seg.split(SEGMENTS_SPLIT);
@@ -607,7 +610,7 @@ public class VideoNameParser2 {
                 }
                 if (episodes.isMatch()) {
                     continue;
-                }else if(episodes.saneEpisodes()){
+                } else if (episodes.saneEpisodes()) {
                     continue;
                 }
             }
@@ -645,8 +648,6 @@ public class VideoNameParser2 {
 
             OtherItem otherItem = OtherItem.parser(keyword);
             if (otherItem != null) {
-                if (!otherItem.tag.equals("WEB"))
-                    mInfo.pushTag(otherItem.tag);
                 continue;
             }
 
@@ -710,10 +711,9 @@ public class VideoNameParser2 {
                         }
                     }
                     if (episodes.isMatch()) {
-                        removeWords.add(episodes.getMatchString());
-                        continue;
-                    }else if(episodes.saneEpisodes()){
-                        removeWords.add(value);
+                        removeWords.addAll(episodes.getMatchList());
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
                         continue;
                     }
                 }
@@ -766,8 +766,6 @@ public class VideoNameParser2 {
 
                 OtherItem otherItem = OtherItem.parser(value);
                 if (otherItem != null) {
-                    if (!otherItem.tag.equals("WEB"))
-                        mInfo.pushTag(otherItem.tag);
                     removeWords.add(key);
                     continue;
                 }
@@ -779,7 +777,6 @@ public class VideoNameParser2 {
                 .replaceAll("\\[", "\\.\\[");
 
         seg = StringUtils.removeAll(seg, removeWords).trim();
-
         String[] segSplit = reverse(seg.split("\\.|-|;|_"));//空格不分开
         tmpNameParts.clear();
         removeWords.clear();
@@ -826,10 +823,9 @@ public class VideoNameParser2 {
                     }
                 }
                 if (episodes.isMatch()) {
-                    removeWords.add(episodes.getMatchString());
-                    continue;
-                }else if(episodes.saneEpisodes()){
-                    removeWords.add(value);
+                    removeWords.addAll(episodes.getMatchList());
+                    removeWords.addAll(tmpNameParts);
+                    tmpNameParts.clear();
                     continue;
                 }
             }
@@ -883,8 +879,6 @@ public class VideoNameParser2 {
 
             OtherItem otherItem = OtherItem.parser(value);
             if (otherItem != null) {
-                if (!otherItem.tag.equals("WEB"))
-                    mInfo.pushTag(otherItem.tag);
                 removeWords.add(value);
                 continue;
             }
@@ -898,8 +892,9 @@ public class VideoNameParser2 {
             seg = removeWords.remove(removeWords.size() - 1);
         }
 
-        seg = seg.replaceAll("\\.|-|;|_", " ");
-        seg = seg.replaceAll("([a-z])([A-Z])","$1 $2");
+        seg = seg.replaceAll("\\.|-|;|_", " ")
+                .replaceAll("([a-z])([A-Z])", "$1 $2");
+
         segSplit = seg.split(SEGMENTS_SPLIT);
 
         /* No need to go further;  */

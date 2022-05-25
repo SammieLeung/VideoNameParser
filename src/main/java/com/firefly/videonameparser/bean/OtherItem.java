@@ -30,7 +30,6 @@ public class OtherItem {
 
     public static OtherItem parser(String input) {
         String tag = null;
-        Log.v("sjfq", "OtherItem parser :" + input);
         if (StringUtils.matchListFind(AUDIO_FIXED_REGEX, input)) {
             tag = "audio_fixed";
         } else if (StringUtils.matchListFind(SYNC_FIXED_REGEX, input)) {
@@ -52,7 +51,6 @@ public class OtherItem {
         } else if (StringUtils.matchListFind(FAN_SUBTITLED__REGEX, input)) {
             tag = "Fast Subtitled";
         }
-        Log.v("sjfq", "OtherItem tag :" + tag);
         if (tag != null)
             return new OtherItem(tag);
         return null;

@@ -95,21 +95,28 @@ public class MovieNameInfo {
         return (episodes != null) && (episodes.size() > 0);
     }
 
-    public String toEpisode(String prefix) {
-        if (TextUtils.isEmpty(prefix))
-            prefix = "0";
-        if (saneEpisode()) {
-            StringBuffer sb = new StringBuffer();
-            int ep = episodes.get(0);
-            if (ep < 10 && ep > 0) {
-                sb.append(prefix);
-                sb.append(ep);
-            } else {
-                sb.append(ep);
-            }
-            return sb.toString();
+//    public String toEpisode(String prefix) {
+//        if (TextUtils.isEmpty(prefix))
+//            prefix = "0";
+//        if (saneEpisode()) {
+//            StringBuffer sb = new StringBuffer();
+//            int ep = episodes.get(0);
+//            if (ep < 10 && ep > 0) {
+//                sb.append(prefix);
+//                sb.append(ep);
+//            } else {
+//                sb.append(ep);
+//            }
+//            return sb.toString();
+//        }
+//        return "";
+//    }
+
+    public int toEpisode(String prefix){
+        if(saneEpisode()){
+            return episodes.get(0);
         }
-        return "";
+        return 0;
     }
 
 
