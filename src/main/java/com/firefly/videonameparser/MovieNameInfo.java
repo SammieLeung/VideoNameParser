@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.firefly.videonameparser.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class MovieNameInfo {
@@ -72,7 +74,17 @@ public class MovieNameInfo {
 
     public void setEpisode(int episode) {
         if (episodes == null) episodes = new ArrayList<Integer>();
-        episodes.add(episode);
+        if (!episodes.contains(episode)) {
+            if (episodes.size() <= 1)
+                episodes.add(episode);
+            else {
+                int ep = episodes.get(1);
+                if (episode > ep)
+                    episodes.set(1, episode);
+            }
+
+        }
+        Collections.sort(episodes);
     }
 
     public ArrayList<Integer> getEpisode() {
@@ -88,16 +100,13 @@ public class MovieNameInfo {
             prefix = "0";
         if (saneEpisode()) {
             StringBuffer sb = new StringBuffer();
-            if (episodes.size() <= 2) {
-                for (int i : episodes) {
-                    sb.append(prefix + i + "-");
-                }
+            int ep = episodes.get(0);
+            if (ep < 10 && ep > 0) {
+                sb.append(prefix);
+                sb.append(ep);
             } else {
-                for (int i : episodes) {
-                    sb.append(prefix + i + ",");
-                }
+                sb.append(ep);
             }
-            sb.delete(sb.length() - 1, sb.length());
             return sb.toString();
         }
         return "";
