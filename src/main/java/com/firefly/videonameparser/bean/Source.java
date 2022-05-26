@@ -144,9 +144,9 @@ public class Source {
 
 	
 	public static Source parser(String input){
-		Log.v("sjfqq","parser input:"+input );
-		Log.v("sjfqq","xx:"+StringUtils.matchListFind(ULTRA_HD_BD_REGEX, input)+","+StringUtils.matchListFind(TS_REGEX, input));
-		
+//		Log.v("sjfqq","parser input:"+input );
+//		Log.v("sjfqq","xx:"+StringUtils.matchListFind(ULTRA_HD_BD_REGEX, input)+","+StringUtils.matchListFind(TS_REGEX, input));
+
 		String name = null;
 		if(StringUtils.matchListFind(VHS_REGEX, input))
 		{
@@ -255,7 +255,7 @@ public class Source {
 			name = DSR2_NAME;
 		}
 		
-		Log.v("sjfqq","name:"+name );
+//		Log.v("sjfqq","name:"+name );
 		if(!TextUtils.isEmpty(name))
 			return new Source(name);
 		

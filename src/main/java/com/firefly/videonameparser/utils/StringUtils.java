@@ -65,7 +65,6 @@ public class StringUtils {
         if (TextUtils.isEmpty(str)) return false;
         //把中文替换为#
         str = str.replaceAll("[\u4E00-\u9FA5]", "#");
-        System.out.println(str);
         String url[] = str.split("#");
         //转换为小写
         if (url != null && url.length > 0) {
@@ -102,7 +101,7 @@ public class StringUtils {
 
         for (String regex : regexs) {
             if (matchFind(regex, input)) {
-                Log.v("sjfqq", "regex:" + regex);
+//                Log.v("sjfqq", "regex:" + regex);
                 return true;
             }
         }
@@ -150,7 +149,7 @@ public class StringUtils {
         Matcher matcher = pattern.matcher(input);
         List<String> list = new ArrayList<String>();
         while (matcher.find()) {
-            Log.v("sjfqq", "matcher.groupCount():" + matcher.groupCount() + "," + matcher.group());
+//            Log.v("sjfqq", "matcher.groupCount():" + matcher.groupCount() + "," + matcher.group());
             if (matcher.groupCount() > 0) {
                 list.add(matcher.group(0));
             }
