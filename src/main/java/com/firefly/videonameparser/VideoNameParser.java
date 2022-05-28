@@ -1,6 +1,5 @@
 package com.firefly.videonameparser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,6 @@ import com.firefly.videonameparser.utils.StringUtils;
 //import com.google.common.collect.Lists;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 
 public class VideoNameParser {
@@ -433,7 +431,7 @@ public class VideoNameParser {
                 }
             }
             String name = join(" ", parts.toArray(new String[0]));
-            mInfo.setName(name);
+            mInfo.autoSetName(name);
         }
 
         isSample = isSample || (segments.length > 1 && !TextUtils.isEmpty(segments[1]) && segments[1].toLowerCase().equals("sample")); /* The directory where the file resides */

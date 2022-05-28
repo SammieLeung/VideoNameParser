@@ -195,8 +195,8 @@ public class VideoNameParser2 {
                 .replaceAll("\\)|\\}", "\\]")
                 .replaceAll("/\\([^\\(]+\\)$/", "") // remove brackets at end
                 .replaceAll("/&/g", "and")
-                .replaceAll("(\\D)[257].[01]", "$1")
-                .replaceAll("([Hh]).(26[45])", "$1$2");
+                .replaceAll("(\\D)[257]\\.[01]", "$1")
+                .replaceAll("([HhXx]).(26[45])", "$1$2");
 
         return name;
         //.split(" ").filter(function(r){return r}).join(" ")
@@ -313,7 +313,7 @@ public class VideoNameParser2 {
                 mayBeName = mTrushWord.get(0).replaceAll("\\[|\\]", "");
             else
                 mayBeName = simplifyName(segments[0].substring(0, segments[0].lastIndexOf("."))).replaceAll("\\[|\\]", "");
-            mInfo.setName(mayBeName);
+            mInfo.autoSetName(mayBeName);
         }
 
 
@@ -442,9 +442,12 @@ public class VideoNameParser2 {
                 mInfo.setType(MovieNameInfo.TYPE_OTHER);
             }
             if (mInfo.getType().equals(MovieNameInfo.TYPE_SERIES) || mInfo.getType().equals(MovieNameInfo.TYPE_EXTRAS)) {
-                String name = mInfo.getName();
-                name = name.replaceFirst("(.*):.*", "$1");
-                mInfo.setName(name);
+                String cn_name = mInfo.getCName();
+                cn_name = cn_name.replaceFirst("(.*):.*", "$1");
+                mInfo.setCName(cn_name);
+                String en_name = mInfo.getEName();
+                en_name = en_name.replaceFirst("(.*):.*", "$1");
+                mInfo.setEName(en_name);
             }
         } else {
             mInfo.setType(MovieNameInfo.TYPE_OTHER);
@@ -463,7 +466,7 @@ public class VideoNameParser2 {
         }
         //名字
         if (!mInfo.hasName())
-            mInfo.setName(name.trim());
+            mInfo.autoSetName(name.trim());
         //year
         int year = Year.parser(year_or_episode);
         if (year > 0) {
@@ -567,7 +570,7 @@ public class VideoNameParser2 {
         }
         //名字
         if (!mInfo.hasName())
-            mInfo.setName(name.trim());
+            mInfo.autoSetName(name.trim());
         //year
         int year = Year.parser(yearStr);
         if (year > 0) {
@@ -930,7 +933,7 @@ public class VideoNameParser2 {
         String name = join(" ", parts.toArray(new String[0]));
 
         if (!mInfo.hasName())
-            mInfo.setName(name.trim());
+            mInfo.autoSetName(name.trim());
     }
 
     private boolean hasEnoughInfo() {

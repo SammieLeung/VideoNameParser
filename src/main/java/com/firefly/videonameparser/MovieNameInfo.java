@@ -127,7 +127,25 @@ public class MovieNameInfo {
             return name;
     }
 
-    public void setName(String name) {
+    public String getCName(){
+        return name_cn;
+    }
+
+    public String getEName(){
+        return name;
+    }
+
+    public void setEName(String name){
+        if (TextUtils.isEmpty(name))
+            return;
+        this.name=name;
+    }
+    public void setCName(String name){
+        if (TextUtils.isEmpty(name))
+            return;
+        this.name_cn=name;
+    }
+    public void autoSetName(String name) {
         if (TextUtils.isEmpty(name))
             return;
         String[] nameParts = name.split(" ");
@@ -144,6 +162,9 @@ public class MovieNameInfo {
             } else if (name.length() - 1 == name.indexOf(sb_cn.charAt(sb_cn.length() - 1))) {
                 this.name = name_cn;
             } else {
+                int i=sb_cn.length()-1;
+                char s=sb_cn.charAt(i);
+                int k=name.indexOf(s);
                 this.name = name.substring(name.indexOf(sb_cn.charAt(sb_cn.length() - 1)) + 1).trim();
             }
         } else {
