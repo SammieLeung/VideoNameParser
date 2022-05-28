@@ -112,7 +112,7 @@ public class MovieNameInfo {
 //        return "";
 //    }
 
-    public int toEpisode(String prefix){
+    public int toEpisode(){
         if(saneEpisode()){
             return episodes.get(0);
         }

@@ -30,6 +30,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
+        debug2("[Moozzi2] Karakuri Circus - 05 (BD 1920x1080 x.264-10Bit Flac)");
         debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第5话.The.Commuter.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
         debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.S01E08.Autofac.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
         debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第一季第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
