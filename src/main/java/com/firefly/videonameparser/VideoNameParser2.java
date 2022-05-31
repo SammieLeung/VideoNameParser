@@ -28,7 +28,7 @@ public class VideoNameParser2 {
      * * http://wiki.xbmc.org/index.php?title=Adding_videos_to_the_library/Naming_files/TV_shows
      * * http://wiki.xbmc.org/index.php?title=Advancedsettings.xml#.3Ctvshowmatching.3E
      */
-    private final static int maxSegments = 3;//最多识别三级菜单 电影名文件夹 > xx篇 > 电影文件| 电视剧文件夹 > 第x季 > 电视剧文件
+    private final static int maxSegments = 2;//最多识别2级菜单 电影名文件夹 > xx篇 > 电影文件| 电视剧文件夹 > 第x季 > 电视剧文件
     private final static String[] extensions = {
             "avi", "wmv", "mp4", "rmvb", "kkv", "3gp", "ts", "mpeg", "mpg", "mkv", "m3u8", "mov",
             "m2ts", "flv", "m2t", "mts", "vob", /*"dat",*/ "m4v", "asf", "f4v", "3g2", "m1v", "m2v", "tp", "trp", "m2p", "rm",
@@ -209,6 +209,9 @@ public class VideoNameParser2 {
         if (StringUtils.checkChina(filePath)) {
             filePath = StringUtils.ChineseToEnglish(filePath);
         }
+        filePath = filePath.replaceAll("[Ss][Mm][Bb]://.*?/", "")
+                .replaceAll("[Hh][Tt]{2}[Pp]://.*?/","");
+
         mInfo = new MovieNameInfo();
         String[] segments = slice(reverse(filePath
                 .replace("\\", "/") // Support Windows slashes, lol
