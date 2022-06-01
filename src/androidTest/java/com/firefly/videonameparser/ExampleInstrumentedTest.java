@@ -30,17 +30,21 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
+//        debug2("The.bat.man.S1E2.mp4");
+//        debug2("The.bat.man-S1E2.mp4");
+//        debug2("The.bat.man.2021.mp4");
+//        debug2("The bat man 2021.mp4");
 //        debug2("[Moozzi2] Karakuri Circus - 03 (BD 1920x1080 x.264-10Bit Flac)");
 //        debug2("[Moozzi2] Karakuri Circus [SP01] Web Yokoku - 34 (BD 1920x1080 x.264-10Bit Flac)");
 //        debug2("[Moozzi2] Karakuri Circus - 05 (BD 1920x1080 x.264-10Bit Flac)");
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第5话.The.Commuter.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.S01E08.Autofac.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第一季第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
-        debug2("smb://admin:123456@192.168.123.122/Philip.K.Dicks.Electric.Dreams.第1季.第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
-        debug2("smb://admin:123456@192.168.123.123/video/101.Dalmatians.1961.1080p.BluRay.X264-AMIABLE[rarbg]/101.Dalmatians.1961.1080p.BluRay.X264-AMIABLE.mkv");
-        debug2("smb://admin:123456@192.168.123.123/video/101.Dalmatians.1961.1080p.BluRay.X264-AMIABLE[rarbg]/Sample/101.dalmatians.1961.1080p.bluray.x264-amiable.sample.mkv");
+//        debug2("smb://admin:123456@192.168.123.122/Philip.K.Dicks.Electric.Dreams.第1季.第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
+//        debug2("smb://admin:123456@192.168.123.123/video/101.Dalmatians.1961.1080p.BluRay.X264-AMIABLE[rarbg]/101.Dalmatians.1961.1080p.BluRay.X264-AMIABLE.mkv");
+//        debug2("smb://admin:123456@192.168.123.123/video/101.Dalmatians.1961.1080p.BluRay.X264-AMIABLE[rarbg]/Sample/101.dalmatians.1961.1080p.bluray.x264-amiable.sample.mkv");
 //        debug2("smb://admin:123456@192.168.123.122/Philip.K.Dicks.Electric.Dreams/第一季/01.MP4");
-
+//
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第1季.第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
 //        debug2("TheIrishman.mp4");
 //        debug2("超能勇士S01E08：双重间谍.mkv");

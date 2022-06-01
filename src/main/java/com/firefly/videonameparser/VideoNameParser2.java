@@ -210,7 +210,7 @@ public class VideoNameParser2 {
             filePath = StringUtils.ChineseToEnglish(filePath);
         }
         filePath = filePath.replaceAll("[Ss][Mm][Bb]://.*?/", "")
-                .replaceAll("[Hh][Tt]{2}[Pp]://.*?/","");
+                .replaceAll("[Hh][Tt]{2}[Pp]://.*?/", "");
 
         mInfo = new MovieNameInfo();
         String[] segments = slice(reverse(filePath
@@ -419,7 +419,7 @@ public class VideoNameParser2 {
          * TODO: WARNING: this assumes it's in the filename segment
          *
          * */
-        String[] diskNumberMatch = matcher("[ _.-]*(?:cd|dvd|p(?:ar)?t|dis[ck]|d)[ _.-]*(\\d{1,2})[^\\d]*", segments[0]);/* weird regexp? */
+        String[] diskNumberMatch = matcher("[ _.-]*(?:cd|dvd|p(?:ar)?t|dis[ck]|d)[ _.-]*(\\d{1,2})(?!\\d{2,3}x\\d{4})", segments[0]);/* weird regexp? */
         if (diskNumberMatch != null && diskNumberMatch.length > 0) {
             int diskNumber = Integer.parseInt(diskNumberMatch[1]);
             mInfo.setDiskNumber(diskNumber);
@@ -556,6 +556,7 @@ public class VideoNameParser2 {
                 }
             }
         }
+        processPatternA(seg);
     }
 
     private void processPatternBA(String seg) {
@@ -677,106 +678,197 @@ public class VideoNameParser2 {
 
                 String key = sourcePrefix[i * 2 + 1];
                 String value = sourcePrefix[i * 2];
+                String[] words = value.split(SEGMENTS_SPLIT);
                 //Log.v("sjfq", "key:"+key);
-
-                if (StringUtils.hasHttpUrl(value)) {
-                    //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    continue;
-                }
-
-                Country country = Country.parser(value);
-                if (country != null) {
-                    //Log.v("sjfq", "setCountry removeWords:"+key);
-                    mInfo.setCountry(country.code);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-                int year = Year.parser(value);
-                if (year > 0) {
-                    //Log.v("sjfq", "Year removeWords:"+key);
-                    mInfo.setYear(year);
-                    removeWords.add(String.valueOf(year));
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-                Episodes episodes = Episodes.parser(value);
-                if (episodes != null) {
-                    if (episodes.season != 0)
-                        mInfo.setSeason(episodes.season);
-                    if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
-                        mInfo.setEpisode(episodes.episode);
-                        if (episodes.toEpisode > 0) {
-                            mInfo.setEpisode(episodes.toEpisode);
+                if (words.length > 1) {
+                    boolean needToRemove = false;
+                    for (int j = 0; j < words.length; j++) {
+                        String word = words[j];
+                        if (StringUtils.hasHttpUrl(word)) {
+                            //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
+                            needToRemove = true;
+                            continue;
                         }
+
+                        Country country = Country.parser(word);
+                        if (country != null) {
+                            //Log.v("sjfq", "setCountry removeWords:"+key);
+                            mInfo.setCountry(country.code);
+                            needToRemove = true;
+                            continue;
+                        }
+
+                        int year = Year.parser(word);
+                        if (year > 0) {
+                            //Log.v("sjfq", "Year removeWords:"+key);
+                            mInfo.setYear(year);
+                            needToRemove = true;
+                            continue;
+                        }
+
+                        Episodes episodes = Episodes.parser(word);
+                        if (episodes != null) {
+                            if (episodes.season != 0)
+                                mInfo.setSeason(episodes.season);
+                            if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                                mInfo.setEpisode(episodes.episode);
+                                if (episodes.toEpisode > 0) {
+                                    mInfo.setEpisode(episodes.toEpisode);
+                                }
+                            }
+                            if (episodes.isMatch()) {
+                                needToRemove = true;
+                                continue;
+                            }
+                        }
+
+                        Resolution resolution = Resolution.parser(word);
+                        if (resolution != null) {
+                            //Log.v("sjfq", "resolution removeWords:"+key);
+                            mInfo.pushTag(resolution.tag);
+                            needToRemove = true;
+                            continue;
+                        }
+
+
+                        VideoCodec videoCodec = VideoCodec.parser(word);
+                        if (videoCodec != null) {
+                            mInfo.setVideoCodec(videoCodec.codec);
+                            needToRemove = true;
+                            continue;
+                        }
+
+                        AudioCodec audioCodec = AudioCodec.parser(word);
+                        if (audioCodec != null) {
+                            mInfo.setAudioCodec(audioCodec.codec);
+                            needToRemove = true;
+                            continue;
+                        }
+
+                        FileSize fileSize = FileSize.parser(word);
+                        if (fileSize != null) {
+                            mInfo.setFileSize(fileSize.size);
+                            needToRemove = true;
+                            continue;
+                        }
+
+                        if (SubTitle.parser(word)) {
+                            //Log.v("sjfq", "SubTitle removeWords:"+key);
+                            needToRemove = true;
+                            continue;
+                        }
+
+                        OtherItem otherItem = OtherItem.parser(word);
+                        if (otherItem != null) {
+                            needToRemove = true;
+                            continue;
+                        }
+                        tmpNameParts.add(key);
                     }
-                    if (episodes.isMatch()) {
-                        removeWords.addAll(episodes.getMatchList());
+                    if (needToRemove) {
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                    }
+                } else {
+                    if (StringUtils.hasHttpUrl(value)) {
+                        //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                        continue;
+                    }
+
+                    Country country = Country.parser(value);
+                    if (country != null) {
+                        //Log.v("sjfq", "setCountry removeWords:"+key);
+                        mInfo.setCountry(country.code);
+                        removeWords.add(key);
                         removeWords.addAll(tmpNameParts);
                         tmpNameParts.clear();
                         continue;
                     }
+
+                    int year = Year.parser(value);
+                    if (year > 0) {
+                        //Log.v("sjfq", "Year removeWords:"+key);
+                        mInfo.setYear(year);
+                        removeWords.add(String.valueOf(year));
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
+                        continue;
+                    }
+
+                    Episodes episodes = Episodes.parser(value);
+                    if (episodes != null) {
+                        if (episodes.season != 0)
+                            mInfo.setSeason(episodes.season);
+                        if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                            mInfo.setEpisode(episodes.episode);
+                            if (episodes.toEpisode > 0) {
+                                mInfo.setEpisode(episodes.toEpisode);
+                            }
+                        }
+                        if (episodes.isMatch()) {
+                            removeWords.addAll(episodes.getMatchList());
+                            removeWords.addAll(tmpNameParts);
+                            tmpNameParts.clear();
+                            continue;
+                        }
+                    }
+
+                    Resolution resolution = Resolution.parser(value);
+                    if (resolution != null) {
+                        //Log.v("sjfq", "resolution removeWords:"+key);
+                        mInfo.pushTag(resolution.tag);
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
+                        continue;
+                    }
+
+
+                    VideoCodec videoCodec = VideoCodec.parser(value);
+                    if (videoCodec != null) {
+                        mInfo.setVideoCodec(videoCodec.codec);
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
+                        continue;
+                    }
+
+                    AudioCodec audioCodec = AudioCodec.parser(value);
+                    if (audioCodec != null) {
+                        mInfo.setAudioCodec(audioCodec.codec);
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
+                        continue;
+                    }
+
+                    FileSize fileSize = FileSize.parser(value);
+                    if (fileSize != null) {
+                        mInfo.setFileSize(fileSize.size);
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
+                        continue;
+                    }
+
+                    if (SubTitle.parser(value)) {
+                        //Log.v("sjfq", "SubTitle removeWords:"+key);
+                        removeWords.add(key);
+                        removeWords.addAll(tmpNameParts);
+                        tmpNameParts.clear();
+                        continue;
+                    }
+
+                    OtherItem otherItem = OtherItem.parser(value);
+                    if (otherItem != null) {
+                        removeWords.add(key);
+                        continue;
+                    }
+
+                    tmpNameParts.add(key);
                 }
-
-                Resolution resolution = Resolution.parser(value);
-                if (resolution != null) {
-                    //Log.v("sjfq", "resolution removeWords:"+key);
-                    mInfo.pushTag(resolution.tag);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-
-                VideoCodec videoCodec = VideoCodec.parser(value);
-                if (videoCodec != null) {
-                    mInfo.setVideoCodec(videoCodec.codec);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-                AudioCodec audioCodec = AudioCodec.parser(value);
-                if (audioCodec != null) {
-                    mInfo.setAudioCodec(audioCodec.codec);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-                FileSize fileSize = FileSize.parser(value);
-                if (fileSize != null) {
-                    mInfo.setFileSize(fileSize.size);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-                if (SubTitle.parser(value)) {
-                    //Log.v("sjfq", "SubTitle removeWords:"+key);
-                    removeWords.add(key);
-                    removeWords.addAll(tmpNameParts);
-                    tmpNameParts.clear();
-                    continue;
-                }
-
-                OtherItem otherItem = OtherItem.parser(value);
-                if (otherItem != null) {
-                    removeWords.add(key);
-                    continue;
-                }
-
-                tmpNameParts.add(key);
             }
         }
         seg = seg.replaceAll("\\.\\[", "\\[")
@@ -948,14 +1040,16 @@ public class VideoNameParser2 {
     /*
      * Test for a year in the name
      * */
-    private final static String MATCH_YEAR_REGEX = "[^\\d](19[0-9][0-9]|20[0-9][0-9])[^\\d]";//匹配４位数字,范围为1900-2099
+    private final static String MATCH_YEAR_REGEX = "[^\\dA-Za-z](19[0-9][0-9]|20[0-9][0-9])[^\\dA-Za-z]";//匹配４位数字,范围为1900-2099
 
-    private void parserYear(String seg) {
+    private String parserYear(String seg) {
         String[] numbers = matcher(MATCH_YEAR_REGEX, seg);
         if (numbers != null && numbers.length > 1) {
             //Log.v(TAG, "year:"+numbers[1]);
             mInfo.setYear(Integer.parseInt(numbers[1]));
+            return numbers[1];
         }
+        return null;
     }
 
     /*

@@ -116,9 +116,9 @@ public class Episodes {
         }
 
 
-        regex = "(\\d+)@?" +
+        regex = "\\D(\\d{1,3})@?" +
                 build_or_pattern(SEASON_EP_MARKERS) +
-                "@?(\\d+)";
+                "@?(\\d{1,3})\\D";
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3) {
@@ -136,14 +136,6 @@ public class Episodes {
             episodes.toEpisode = Integer.parseInt(dotStampMatch[2]);
         }
 
-        regex = "(\\d+)" + build_or_pattern(SEASON_EP_MARKERS) + "(\\d+)";
-        dotStampMatch = StringUtils.matcher(regex, input);
-        StringUtils.debug(dotStampMatch);
-        if (dotStampMatch != null && dotStampMatch.length == 3) {
-             episodes.mMatchList.add(dotStampMatch[0]);
-            episodes.season = Integer.parseInt(dotStampMatch[1]);
-            episodes.episode = Integer.parseInt(dotStampMatch[2]);
-        }
 
         regex = "[全共]([0-9]{1,4}|[一二三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千佰仟]{1,})[集话話章]";
         dotStampMatch = StringUtils.matcher(regex, input);
