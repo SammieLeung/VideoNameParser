@@ -9,6 +9,7 @@ import com.firefly.videonameparser.bean.Episodes;
 import com.firefly.videonameparser.bean.FileSize;
 import com.firefly.videonameparser.bean.OtherItem;
 import com.firefly.videonameparser.bean.Resolution;
+import com.firefly.videonameparser.bean.Source;
 import com.firefly.videonameparser.bean.SubTitle;
 import com.firefly.videonameparser.bean.VideoCodec;
 import com.firefly.videonameparser.bean.Year;
@@ -182,9 +183,6 @@ public class VideoNameParser2 {
 
 
     private final static String SEGMENTS_SPLIT = "\\.| |-|;|_";
-    private final static String MATCH_FILES = "/.mp4$|.mkv$|.avi$/";
-    private final static int minYear = 1900, maxYear = 2060;
-    private final static String[] excluded = {};
 
 
     private String simplifyName(String name) {
@@ -521,9 +519,16 @@ public class VideoNameParser2 {
                     continue;
                 }
 
+                Source source = Source.parser(value);
+                if (source != null) {
+                    if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME))
+                        mInfo.setVideoSource(source.name);
+                    continue;
+                }
+
                 Resolution resolution = Resolution.parser(value);
                 if (resolution != null) {
-                    mInfo.pushTag(resolution.tag);
+                    mInfo.setResolution(resolution.tag);
                     continue;
                 }
 
@@ -622,10 +627,17 @@ public class VideoNameParser2 {
                 }
             }
 
+            Source source = Source.parser(keyword);
+            if (source != null) {
+                if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME))
+                    mInfo.setVideoSource(source.name);
+                continue;
+            }
+
             Resolution resolution = Resolution.parser(keyword);
             if (resolution != null) {
                 //Log.v("sjfq", "resolution removeWords:"+key);
-                mInfo.pushTag(resolution.tag);
+                mInfo.setResolution(resolution.tag);
                 continue;
             }
 
@@ -722,10 +734,17 @@ public class VideoNameParser2 {
                             }
                         }
 
+                        Source source = Source.parser(word);
+                        if (source != null) {
+                            if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME))
+                                mInfo.setVideoSource(source.name);
+                            continue;
+                        }
+
                         Resolution resolution = Resolution.parser(word);
                         if (resolution != null) {
                             //Log.v("sjfq", "resolution removeWords:"+key);
-                            mInfo.pushTag(resolution.tag);
+                            mInfo.setResolution(resolution.tag);
                             needToRemove = true;
                             continue;
                         }
@@ -815,10 +834,17 @@ public class VideoNameParser2 {
                         }
                     }
 
+                    Source source = Source.parser(value);
+                    if (source != null) {
+                        if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME))
+                            mInfo.setVideoSource(source.name);
+                        continue;
+                    }
+
                     Resolution resolution = Resolution.parser(value);
                     if (resolution != null) {
                         //Log.v("sjfq", "resolution removeWords:"+key);
-                        mInfo.pushTag(resolution.tag);
+                        mInfo.setResolution(resolution.tag);
                         removeWords.add(key);
                         removeWords.addAll(tmpNameParts);
                         tmpNameParts.clear();
@@ -928,11 +954,17 @@ public class VideoNameParser2 {
                 }
             }
 
+            Source source = Source.parser(value);
+            if (source != null) {
+                if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME))
+                    mInfo.setVideoSource(source.name);
+                continue;
+            }
 
             Resolution resolution = Resolution.parser(value);
             if (resolution != null) {
                 //Log.v("sjfq", "resolution removeWords:"+key);
-                mInfo.pushTag(resolution.tag);
+                mInfo.setResolution(resolution.tag);
                 removeWords.add(value);
                 removeWords.addAll(tmpNameParts);
                 tmpNameParts.clear();

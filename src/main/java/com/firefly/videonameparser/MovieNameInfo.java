@@ -2,11 +2,14 @@ package com.firefly.videonameparser;
 
 import android.text.TextUtils;
 
+import com.firefly.videonameparser.bean.Resolution;
+import com.firefly.videonameparser.bean.Source;
 import com.firefly.videonameparser.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 public class MovieNameInfo {
@@ -43,6 +46,9 @@ public class MovieNameInfo {
     String fileSize;
 
     ArrayList<String> patterns;
+
+    String resolution;
+    String video_source;
 
     public String getFileSize() {
         return fileSize;
@@ -112,8 +118,8 @@ public class MovieNameInfo {
 //        return "";
 //    }
 
-    public int toEpisode(){
-        if(saneEpisode()){
+    public int toEpisode() {
+        if (saneEpisode()) {
             return episodes.get(0);
         }
         return 0;
@@ -127,24 +133,26 @@ public class MovieNameInfo {
             return name;
     }
 
-    public String getCName(){
+    public String getCName() {
         return name_cn;
     }
 
-    public String getEName(){
+    public String getEName() {
         return name;
     }
 
-    public void setEName(String name){
+    public void setEName(String name) {
         if (TextUtils.isEmpty(name))
             return;
-        this.name=name;
+        this.name = name;
     }
-    public void setCName(String name){
+
+    public void setCName(String name) {
         if (TextUtils.isEmpty(name))
             return;
-        this.name_cn=name;
+        this.name_cn = name;
     }
+
     public void autoSetName(String name) {
         if (TextUtils.isEmpty(name))
             return;
@@ -162,9 +170,9 @@ public class MovieNameInfo {
             } else if (name.length() - 1 == name.indexOf(sb_cn.charAt(sb_cn.length() - 1))) {
                 this.name = name_cn;
             } else {
-                int i=sb_cn.length()-1;
-                char s=sb_cn.charAt(i);
-                int k=name.indexOf(s);
+                int i = sb_cn.length() - 1;
+                char s = sb_cn.charAt(i);
+                int k = name.indexOf(s);
                 this.name = name.substring(name.indexOf(sb_cn.charAt(sb_cn.length() - 1)) + 1).trim();
             }
         } else {
@@ -238,9 +246,30 @@ public class MovieNameInfo {
         this.extension = extension;
     }
 
+    public String getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
+    public String getVideoSource() {
+        return video_source;
+    }
+
+    public void setVideoSource(String video_source) {
+        this.video_source = video_source;
+    }
+
     public void pushTag(String tag) {
         if (tags == null) tags = new ArrayList<String>();
-        tags.add(tag);
+        if(!tags.contains(tag))
+            tags.add(tag);
+    }
+
+    public List<String> getTags(){
+        return tags;
     }
 
     public void pushPattern(String pattern) {
