@@ -30,7 +30,21 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
-        debug2("The.bat.man.S1E2.mp4");
+        debug2("storage/1A14A5D514A5B3E3/Movies/Beijing.2022.Olympic.Winter.Games.Opening.Ceremony.20220204.4320p.CCTV-8K.UHDTV.AVS3.10bit.HDR.MPEG-FLTTH.ts");
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[整蛊专家]Tricky.Brains.1991.BluRay.1080p.x265.10bit.2Audio.BOBO/[整蛊专家]Tricky.Brains.1991.BluRay.1080p.x265.10bit.2Audio.BOBO.mkv");
+
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[新精武门1991]Fist.of.Fury.1991.BluRay.1080p.x265.10bit.2Audio.BOBO/[新精武门1991]Fist.of.Fury.1991.BluRay.1080p.x265.10bit.2Audio.BOBO.mkv");
+
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[行运一条龙]The.Lucky.Guy.1998.BluRay.1080p.x265.10bit.2Audio.BOBO/[行运一条龙]The.Lucky.Guy.1998.BluRay.1080p.x265.10bit.2Audio.BOBO.mkv");
+
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[西游伏妖篇]Journey.to.the.West.The.Demons.Strike.Back.2017.BluRay.1080p.x265.10bit.2Audio.BOBO/[西游伏妖篇]Journey.to.the.West.The.Demons.Strike.Back.2017.BluRay.1080p.x265.10bit.2Audio.BOBO.mkv");
+
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[西游降魔篇]Journey.To.The.West-Conquering.The.Demons.2013.BluRay.1080p.TrueHD.5.1.BOBO/[西游降魔篇]Journey.To.The.West-Conquering.The.Demons.2013.BluRay.1080p.TrueHD.5.1.BOBO.mkv");
+
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[长江七号]CJ7.2008.BluRay.1080p.x265.10bit.2Audio.BOBO/[长江七号]CJ7.2008.BluRay.1080p.x265.10bit.2Audio.BOBO.mkv");
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/[阳光电影-www.ygdy8.com]王牌对王牌第六季20210319/[阳光电影-www.ygdy8.com]王牌对王牌第六季20210319.mp4");
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/[阳光电影-www.ygdy8.com]人气歌谣20210905/[阳光电影-www.ygdy8.com]人气歌谣20210905.mp4");
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/鱿鱼游戏.Squid.Game.2021.EP01-09.HD1080P.X264.AAC.Korean.CHS.Mp4er/鱿鱼游戏.Squid.Game.2021.EP09.HD1080P.X264.AAC.Korean.CHS.Mp4er.mp4");//        debug2("The.bat.man.S1E2.mp4");
         debug2("The.bat.man-S1E2.mp4");
         debug2("The.bat.man.2021.mp4");
         debug2("The bat man 2021.mp4");

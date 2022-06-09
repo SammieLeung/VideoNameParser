@@ -92,7 +92,7 @@ public class Episodes {
                 build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "?(\\d+)";
         String[] dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
-        if (dotStampMatch != null && dotStampMatch.length == 3) {
+        if (dotStampMatch != null && dotStampMatch.length == 3&&dotStampMatch[1]!=null&&dotStampMatch[2]!=null) {
             episodes.mMatchList.add(dotStampMatch[0]);
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
@@ -103,7 +103,7 @@ public class Episodes {
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
             if (dotStampMatch != null) {
-                if (dotStampMatch.length == 2) {
+                if (dotStampMatch.length == 2&&dotStampMatch[1]!=null) {
                      episodes.mMatchList.add(dotStampMatch[0]);
                     episodes.episode = Integer.parseInt(dotStampMatch[1]);
                 }
@@ -121,7 +121,7 @@ public class Episodes {
                 "@?(\\d{1,3})\\D";
         dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
-        if (dotStampMatch != null && dotStampMatch.length == 3) {
+        if (dotStampMatch != null && dotStampMatch.length == 3&&dotStampMatch[1]!=null&&dotStampMatch[2]!=null) {
              episodes.mMatchList.add(dotStampMatch[0]);
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
