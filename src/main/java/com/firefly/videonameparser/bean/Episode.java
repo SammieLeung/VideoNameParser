@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.firefly.videonameparser.utils.StringUtils;
 
 public class Episode {
-		public int season = 0;
-		public int episode = 0;
+		public int season = -1;
+		public int episode = -1;
 		public Episode(int season, int episode) {
 			super();
 			this.season = season;

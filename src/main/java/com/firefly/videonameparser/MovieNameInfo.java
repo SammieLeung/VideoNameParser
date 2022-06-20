@@ -29,7 +29,7 @@ public class MovieNameInfo {
     // additional tags inferred from the name, e.g. 1080p
     ArrayList<String> tags;
     // - number of the season
-    int season = 0;
+    int season = -1;
     //- array of episode numbers, returned for episodes
     ArrayList<Integer> episodes;
     int diskNumber = 0;
@@ -122,7 +122,7 @@ public class MovieNameInfo {
         if (saneEpisode()) {
             return episodes.get(0);
         }
-        return 0;
+        return -1;
     }
 
 
@@ -211,7 +211,7 @@ public class MovieNameInfo {
     }
 
     public boolean saneSeason() {
-        return season != 0;
+        return season != -1;
     }
 
     public int getDiskNumber() {

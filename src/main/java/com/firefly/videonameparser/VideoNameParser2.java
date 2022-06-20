@@ -300,11 +300,11 @@ public class VideoNameParser2 {
 //                if (StringUtils.matchFindStrictMode(regex, seg)) {
 //                    Episodes episodes = Episodes.parser(seg);
 //                    if (episodes != null) {
-//                        if (episodes.season != 0)
+//                        if (episodes.season != -1)
 //                            mInfo.setSeason(episodes.season);
-//                        if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+//                        if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
 //                            mInfo.setEpisode(episodes.episode);
-//                            if (episodes.toEpisode > 0) {
+//                            if (episodes.toEpisode >= 0) {
 //                                mInfo.setEpisode(episodes.toEpisode);
 //                            }
 //                        }
@@ -336,113 +336,6 @@ public class VideoNameParser2 {
             mInfo.autoSetName(mayBeName);
         }
 
-
-
-
-//        /*
-//         * This stamp must be tested before splitting (by dot)
-//         * a pattern of the kind [4.02]
-//         * This pattern should be arround characters which are not digits and not letters
-//         * */
-//
-//        if (!(mInfo.saneSeason() && mInfo.saneEpisode()) && mInfo.getYear() == 0) {
-//            String[] dotStampMatch = matcher("[^\\da-zA-Z](\\d\\d?)\\.(\\d\\d?)[^\\da-zA-Z]", segments[0]);
-//            if (dotStampMatch != null && dotStampMatch.length >= 3) {
-//                //Log.v(TAG, "dotStampMatch:"+dotStampMatch[0]);
-//                mInfo.setSeason(Integer.parseInt(dotStampMatch[1]));
-//                ArrayList<Integer> tmp = new ArrayList<Integer>();
-//                tmp.add(Integer.parseInt(dotStampMatch[2]));
-//                mInfo.setEpisode(tmp);
-//            }
-//        }
-//
-//        /*
-//         *  A stamp of the style "804", meaning season 8, episode 4
-//         * */
-//        if (!(mInfo.saneSeason() && mInfo.saneEpisode())) {
-//            String stamp = null;
-//
-//            /* search from the end */
-//            for (String x : reverse(firstNameSplit)) {
-//
-//                if (x.matches("\\d\\d\\d\\d?(e|E)"))// This is a weird case, but I've seen it: dexter.801e.720p.x264-kyr.mkv
-//                {
-//                    x = x.substring(0, x.length() - 1);
-//                } else if (x.matches("(s|S)\\d\\d\\d\\d?"))// This is a weird case, but I've seen it: dexter.s801.720p.x264-kyr.mkv
-//                {
-//                    x = x.substring(1);
-//                }
-//                //Log.v(TAG, "x:"+x);
-//                /* 4-digit only allowed if this has not been identified as a year */
-//                if (!TextUtils.isEmpty(x) && TextUtils.isDigitsOnly(x) && (x.length() == 3 || (mInfo.getYear() == 0 && x.length() == 4))) {
-//                    /* Notice how always the first match is choosen ; the second might be a part of the episode name (e.g. "Southpark - 102 - weight gain 4000");
-//                     * that presumes episode number/stamp comes before the name, which is where most human beings would put it */
-//                    stamp = x;
-//                    break;
-//                }
-//            }
-//            //Log.v(TAG, "stamp:"+stamp);
-//            /* Since this one is risky, do it only if we haven't matched a year (most likely not a movie)
-//             * or if year is BEFORE stamp, like: show.2014.801.mkv */
-//            if (!TextUtils.isEmpty(stamp) && TextUtils.isDigitsOnly(stamp) && (mInfo.getYear() == 0
-//                    || (mInfo.getYear() != 0 && (firstName.indexOf(stamp) < firstName.indexOf(mInfo.getYear()))))) {
-//                String episode = stamp.substring(stamp.length() - 2);
-//                String season = stamp.substring(0, stamp.length() - 2);
-//                //Log.v(TAG, "season:"+season+",episode:"+episode);
-//
-//                mInfo.setSeason(Integer.parseInt(season));
-//                mInfo.setEpisode(Integer.parseInt(episode));
-//            }
-//        }
-//
-//        /*
-//         * "season 1", "season.1", "season1"
-//         * */
-//        if (!mInfo.saneSeason()) {
-//            //Log.v(TAG,"segments:"+segments.length);
-//            String segments_str = join("/", segments);
-//            String[] seasonMatch = matcher("season(\\.| )?(\\d{1,2})", segments_str);
-//            if (seasonMatch != null && seasonMatch.length > 0) {
-//                String season = join("", matcher("\\d", seasonMatch[0]));
-//                mInfo.setSeason(Integer.parseInt(season));
-//                //Log.v(TAG,"season:"+season);
-//            }
-//
-//            String[] seasonEpMatch = matcher("Season (\\d{1,2}) - (\\d{1,2})", segments_str);
-//            if (seasonEpMatch != null && seasonEpMatch.length > 0) {
-//                String season = seasonEpMatch[1];
-//                String episode = seasonEpMatch[2];
-//                mInfo.setSeason(Integer.parseInt(season));
-//                mInfo.setEpisode(Integer.parseInt(episode));
-//                //Log.v(TAG,"season:"+season+",episode:"+episode);
-//            }
-//        }
-//        /*
-//         * "episode 13", "episode.13", "episode13", "ep13", etc.
-//         * */
-//        if (!mInfo.saneEpisode()) {
-//            /* TODO: consider the case when a hyphen is used for multiple episodes ; e.g. e1-3*/
-//            String segments_str = join("/", segments);
-//            String[] episodeMatch = matcher("ep(isode)?(\\.| )?(\\d+)", segments_str);
-//            if (episodeMatch != null && episodeMatch.length > 0) {
-//                String episode = join("", matcher("\\d", episodeMatch[0]));
-//                mInfo.setEpisode(Integer.parseInt(episode));
-//                //Log.v(TAG,"episode:"+episode);
-//            }
-//        }
-//
-//        /*
-//         * Which part (for mapsList which are split into .cd1. and .cd2., etc.. files)
-//         * TODO: WARNING: this assumes it's in the filename segment
-//         *
-//         * */
-//        String[] diskNumberMatch = matcher("[ _.-]*(?:cd|dvd|p(?:ar)?t|dis[ck]|d)[ _.-]*(\\d{1,2})(?!\\d{2,3}x\\d{4})", segments[0]);/* weird regexp? */
-//        if (diskNumberMatch != null && diskNumberMatch.length > 0) {
-//            int diskNumber = Integer.parseInt(diskNumberMatch[1]);
-//            mInfo.setDiskNumber(diskNumber);
-//            //Log.v(TAG,"diskNumber:"+diskNumber);
-//        }
-
         boolean canBeMovie = mInfo.getYear() != 0
                 || mInfo.getDiskNumber() != 0
                 || checkMovieKeywords(join("/", segments));
@@ -451,7 +344,7 @@ public class VideoNameParser2 {
                 mInfo.setType(MovieNameInfo.TYPE_SERIES);
             }
 
-            if (mInfo.saneSeason() && mInfo.saneEpisode()) {
+            if (mInfo.saneSeason() &&(mInfo.saneEpisode()||mInfo.hasAired())) {
                 mInfo.setType(MovieNameInfo.TYPE_SERIES);
             } else if (canBeMovie) {
                 mInfo.setType(MovieNameInfo.TYPE_MOVIE);
@@ -461,6 +354,7 @@ public class VideoNameParser2 {
             } else {
                 mInfo.setType(MovieNameInfo.TYPE_OTHER);
             }
+
             if (mInfo.getType().equals(MovieNameInfo.TYPE_SERIES) || mInfo.getType().equals(MovieNameInfo.TYPE_EXTRAS)) {
                 String cn_name = mInfo.getCName();
                 cn_name = cn_name.replaceFirst("(.*):.*", "$1");
@@ -495,11 +389,11 @@ public class VideoNameParser2 {
         //episode
         Episodes episodes = Episodes.parser(year_or_episode);
         if (episodes != null) {
-            if (episodes.season != 0)
+            if (episodes.season != -1)
                 mInfo.setSeason(episodes.season);
-            if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+            if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
                 mInfo.setEpisode(episodes.episode);
-                if (episodes.toEpisode > 0) {
+                if (episodes.toEpisode >= 0) {
                     mInfo.setEpisode(episodes.toEpisode);
                 }
             }
@@ -713,11 +607,11 @@ public class VideoNameParser2 {
 
             Episodes episodes = Episodes.parser(keyword);
             if (episodes != null) {
-                if (episodes.season != 0)
+                if (episodes.season != -1)
                     mInfo.setSeason(episodes.season);
-                if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
                     mInfo.setEpisode(episodes.episode);
-                    if (episodes.toEpisode > 0) {
+                    if (episodes.toEpisode >= 0) {
                         mInfo.setEpisode(episodes.toEpisode);
                     }
                 }
@@ -821,11 +715,11 @@ public class VideoNameParser2 {
 
                         Episodes episodes = Episodes.parser(word);
                         if (episodes != null) {
-                            if (episodes.season != 0)
+                            if (episodes.season != -1)
                                 mInfo.setSeason(episodes.season);
-                            if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                            if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
                                 mInfo.setEpisode(episodes.episode);
-                                if (episodes.toEpisode > 0) {
+                                if (episodes.toEpisode >= 0) {
                                     mInfo.setEpisode(episodes.toEpisode);
                                 }
                             }
@@ -920,11 +814,11 @@ public class VideoNameParser2 {
 
                     Episodes episodes = Episodes.parser(value);
                     if (episodes != null) {
-                        if (episodes.season != 0)
+                        if (episodes.season != -1)
                             mInfo.setSeason(episodes.season);
-                        if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                        if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
                             mInfo.setEpisode(episodes.episode);
-                            if (episodes.toEpisode > 0) {
+                            if (episodes.toEpisode >= 0) {
                                 mInfo.setEpisode(episodes.toEpisode);
                             }
                         }
@@ -1053,11 +947,11 @@ public class VideoNameParser2 {
 
             Episodes episodes = Episodes.parser(value);
             if (episodes != null) {
-                if (episodes.season != 0)
+                if (episodes.season != -1)
                     mInfo.setSeason(episodes.season);
-                if (mInfo.getYear() != episodes.episode && episodes.episode != 0) {
+                if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
                     mInfo.setEpisode(episodes.episode);
-                    if (episodes.toEpisode > 0) {
+                    if (episodes.toEpisode >= 0) {
                         mInfo.setEpisode(episodes.toEpisode);
                     }
                 }

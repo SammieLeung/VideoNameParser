@@ -7,9 +7,9 @@ import com.firefly.videonameparser.utils.StringUtils;
 import java.util.ArrayList;
 
 public class Episodes {
-    public int season = 0;
-    public int episode = 0;
-    public int toEpisode = 0;
+    public int season = -1;
+    public int episode = -1;
+    public int toEpisode = -1;
     private ArrayList<String> mMatchList =new ArrayList<>();
 
     private static final int SEASON_MAX_RANGE = 100;
@@ -86,7 +86,7 @@ public class Episodes {
     public static Episodes parser(String input) {
         if (TextUtils.isEmpty(input)) return null;
         input=input.trim();
-        Episodes episodes = new Episodes(0, 0);
+        Episodes episodes = new Episodes(-1, -1);
 
         String regex = build_or_pattern(SEASON_MARKERS, SEASON_WORDS) + "(\\d+)?" +
                 build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "?(\\d+)";
@@ -98,7 +98,7 @@ public class Episodes {
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
         }
 
-        if (episodes.episode == 0 && !input.contains("x265") &&!input.contains("x264")) {
+        if (episodes.episode == -1 && !input.contains("x265") &&!input.contains("x264")) {
             regex = "^" + build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "(\\d+)";
             dotStampMatch = StringUtils.matcher(regex, input);
             StringUtils.debug(dotStampMatch);
@@ -196,7 +196,7 @@ public class Episodes {
         }
 
 
-        if (episodes.episode != 0 && episodes.season == 0)
+        if (episodes.episode != -1 && episodes.season == -1)
             episodes.season = 1;
         return episodes;
     }
@@ -239,7 +239,7 @@ public class Episodes {
     }
 
     public boolean saneEpisodes(){
-        if(episode!=0||season!=0||toEpisode!=0)
+        if(episode!=-1||season!=-1||toEpisode!=-1)
             return true;
         return false;
     }
