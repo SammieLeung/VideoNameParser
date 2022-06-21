@@ -685,15 +685,13 @@ public class VideoNameParser2 {
 
                 String key = sourcePrefix[i * 2 + 1];
                 String value = sourcePrefix[i * 2];
-                String[] words = value.split(SEGMENTS_SPLIT);
+                String[] words = value.split("\\.| ");
                 //Log.v("sjfq", "key:"+key);
                 if (words.length > 1) {
-                    boolean needToRemove = false;
                     for (int j = 0; j < words.length; j++) {
                         String word = words[j];
                         if (StringUtils.hasHttpUrl(word)) {
-                            //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
@@ -701,7 +699,7 @@ public class VideoNameParser2 {
                         if (country != null) {
                             //Log.v("sjfq", "setCountry removeWords:"+key);
                             mInfo.setCountry(country.code);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
@@ -709,7 +707,7 @@ public class VideoNameParser2 {
                         if (year > 0) {
                             //Log.v("sjfq", "Year removeWords:"+key);
                             mInfo.setYear(year);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
@@ -724,15 +722,17 @@ public class VideoNameParser2 {
                                 }
                             }
                             if (episodes.isMatch()) {
-                                needToRemove = true;
+                                removeWords.addAll(episodes.getMatchList());
                                 continue;
                             }
                         }
 
                         Source source = Source.parser(word);
                         if (source != null) {
-                            if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME))
+                            if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME)) {
                                 mInfo.setVideoSource(source.name);
+                                removeWords.add(word);
+                            }
                             continue;
                         }
 
@@ -740,7 +740,7 @@ public class VideoNameParser2 {
                         if (resolution != null) {
                             //Log.v("sjfq", "resolution removeWords:"+key);
                             mInfo.setResolution(resolution.tag);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
@@ -748,47 +748,40 @@ public class VideoNameParser2 {
                         VideoCodec videoCodec = VideoCodec.parser(word);
                         if (videoCodec != null) {
                             mInfo.setVideoCodec(videoCodec.codec);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
                         AudioCodec audioCodec = AudioCodec.parser(word);
                         if (audioCodec != null) {
                             mInfo.setAudioCodec(audioCodec.codec);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
                         FileSize fileSize = FileSize.parser(word);
                         if (fileSize != null) {
                             mInfo.setFileSize(fileSize.size);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
                         if (SubTitle.parser(word)) {
                             //Log.v("sjfq", "SubTitle removeWords:"+key);
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
 
                         OtherItem otherItem = OtherItem.parser(word);
                         if (otherItem != null) {
-                            needToRemove = true;
+                            removeWords.add(word);
                             continue;
                         }
-                        tmpNameParts.add(key);
-                    }
-                    if (needToRemove) {
-                        removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
                     }
                 } else {
                     if (StringUtils.hasHttpUrl(value)) {
                         //Log.v("sjfq", "hasHttpUrl removeWords:"+key);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -797,8 +790,6 @@ public class VideoNameParser2 {
                         //Log.v("sjfq", "setCountry removeWords:"+key);
                         mInfo.setCountry(country.code);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -807,8 +798,6 @@ public class VideoNameParser2 {
                         //Log.v("sjfq", "Year removeWords:"+key);
                         mInfo.setYear(year);
                         removeWords.add(String.valueOf(year));
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -824,8 +813,6 @@ public class VideoNameParser2 {
                         }
                         if (episodes.isMatch()) {
                             removeWords.addAll(episodes.getMatchList());
-                            removeWords.addAll(tmpNameParts);
-                            tmpNameParts.clear();
                             continue;
                         }
                     }
@@ -835,8 +822,6 @@ public class VideoNameParser2 {
                         if (source.name.equals(Source.BD_NAME) || source.name.equals(Source.DVD_NAME)) {
                             mInfo.setVideoSource(source.name);
                             removeWords.add(key);
-                            removeWords.addAll(tmpNameParts);
-                            tmpNameParts.clear();
                             continue;
                         }
                     }
@@ -846,8 +831,6 @@ public class VideoNameParser2 {
                         //Log.v("sjfq", "resolution removeWords:"+key);
                         mInfo.setResolution(resolution.tag);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -856,8 +839,6 @@ public class VideoNameParser2 {
                     if (videoCodec != null) {
                         mInfo.setVideoCodec(videoCodec.codec);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -865,8 +846,6 @@ public class VideoNameParser2 {
                     if (audioCodec != null) {
                         mInfo.setAudioCodec(audioCodec.codec);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -874,16 +853,12 @@ public class VideoNameParser2 {
                     if (fileSize != null) {
                         mInfo.setFileSize(fileSize.size);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
                     if (SubTitle.parser(value)) {
                         //Log.v("sjfq", "SubTitle removeWords:"+key);
                         removeWords.add(key);
-                        removeWords.addAll(tmpNameParts);
-                        tmpNameParts.clear();
                         continue;
                     }
 
@@ -893,14 +868,16 @@ public class VideoNameParser2 {
                         continue;
                     }
 
-                    tmpNameParts.add(key);
+                    removeWords.add(key);
                 }
             }
         }
-        seg = seg.replaceAll("\\.\\[", "\\[")
-                .replaceAll("\\[", "\\.\\[");
-
-        seg = StringUtils.removeAll(seg, removeWords).trim();
+        if(removeWords.size()>0){
+            seg = seg.replaceAll("\\[(.*?)\\]", "");
+        }else {
+            seg = seg.replaceAll("\\.\\[", "\\[")
+                    .replaceAll("\\[", "\\.\\[");
+        }
         String[] segSplit = reverse(seg.split("\\.|-|;|_"));//空格不分开
         tmpNameParts.clear();
         removeWords.clear();
