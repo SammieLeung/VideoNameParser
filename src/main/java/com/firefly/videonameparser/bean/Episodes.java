@@ -89,13 +89,23 @@ public class Episodes {
         Episodes episodes = new Episodes(-1, -1);
 
         String regex = build_or_pattern(SEASON_MARKERS, SEASON_WORDS) + "(\\d+)?" +
-                build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "?(\\d+)";
+                build_or_pattern(EPISODE_MARKERS, EPISODE_WORDS, DISC_MARKERS) + "(\\d+)";
         String[] dotStampMatch = StringUtils.matcher(regex, input);
         StringUtils.debug(dotStampMatch);
         if (dotStampMatch != null && dotStampMatch.length == 3&&dotStampMatch[1]!=null&&dotStampMatch[2]!=null) {
             episodes.mMatchList.add(dotStampMatch[0]);
             episodes.season = Integer.parseInt(dotStampMatch[1]);
             episodes.episode = Integer.parseInt(dotStampMatch[2]);
+        }
+
+        if(episodes.season==-1){
+            regex = "^" + build_or_pattern(SEASON_MARKERS, SEASON_WORDS) + "(\\d+)$";
+            dotStampMatch = StringUtils.matcher(regex, input);
+            if (dotStampMatch != null) {
+                if (dotStampMatch.length == 2&&dotStampMatch[1]!=null) {
+                    episodes.season = Integer.parseInt(dotStampMatch[1]);
+                }
+            }
         }
 
         if (episodes.episode == -1 && !input.contains("x265") &&!input.contains("x264")) {

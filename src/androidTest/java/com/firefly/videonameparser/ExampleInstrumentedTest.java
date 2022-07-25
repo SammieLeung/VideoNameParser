@@ -30,7 +30,8 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
-        debug2("smb://192.168.123.10/kk-0share/Movies/[BeanSub&FZSD&LoliHouse] Kimetsu no Yaiba - 40 [WebRip 1080p HEVC-10bit AAC ASSx2]/[BeanSub&FZSD&LoliHouse] Kimetsu no Yaiba - 40 [WebRip 1080p HEVC-10bit AAC ASSx2].mkv");
+//        debug2("/storage/1A14A5D514A5B3E3/Station/Download/致命女人.第一季.全10集.Why.Women.Kill.S01.HD1080P.X264.AAC.English.CHS-ENG/致命女人.Why.Women.Kill.S01.E01.HD1080P.X264.AAC.English.CHS-ENG177.mp4");
+//        debug2("smb://192.168.123.10/kk-0share/Movies/[BeanSub&FZSD&LoliHouse] Kimetsu no Yaiba - 40 [WebRip 1080p HEVC-10bit AAC ASSx2]/[BeanSub&FZSD&LoliHouse] Kimetsu no Yaiba - 40 [WebRip 1080p HEVC-10bit AAC ASSx2].mkv");
 //        debug2("storage/1A14A5D514A5B3E3/Movies/Beijing.2022.Olympic.Winter.Games.Opening.Ceremony.20220204.4320p.CCTV-8K.UHDTV.AVS3.10bit.HDR.MPEG-FLTTH.ts");
 //        debug2("/storage/1A14A5D514A5B3E3/Station/Download/周星驰43部合集2.1988-2019.BluRay.1080p.x265.10bit.2Audio.BOBO/[整蛊专家]Tricky.Brains.1991.BluRay.1080p.x265.10bit.2Audio.BOBO/[整蛊专家]Tricky.Brains.1991.BluRay.1080p.x265.10bit.2Audio.BOBO.mkv");
 //
@@ -49,9 +50,9 @@ public class ExampleInstrumentedTest {
 //        debug2("The.bat.man-S1E2.mp4");
 //        debug2("The.bat.man.2021.mp4");
 //        debug2("The bat man 2021.mp4");
-        debug2("[Moozzi2] Karakuri Circus - 03 (BD 1920x1080 x.264-10Bit Flac)");
-        debug2("[Moozzi2] Karakuri Circus [SP01] Web Yokoku - 34 (BD 1920x1080 x.264-10Bit Flac)");
-        debug2("[Moozzi2] Karakuri Circus - 05 (BD 1920x1080 x.264-10Bit Flac)");
+//        debug2("[Moozzi2] Karakuri Circus - 03 (BD 1920x1080 x.264-10Bit Flac)");
+//        debug2("[Moozzi2] Karakuri Circus [SP01] Web Yokoku - 34 (BD 1920x1080 x.264-10Bit Flac)");
+//        debug2("[Moozzi2] Karakuri Circus - 05 (BD 1920x1080 x.264-10Bit Flac)");
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第5话.The.Commuter.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.S01E08.Autofac.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
 //        debug2("smb://admin:123456@192.168.123.122/迅雷/下载/Philip.K.Dicks.Electric.Dreams.S01.1080p.AMZN.WEBRip.DDP5.1.x264-SiGMA[rartv]/Philip.K.Dicks.Electric.Dreams.第一季第5话.Human.Is.1080p.AMZN.WEB-DL.DD+5.1.H.264-SiGMA.mkv");
@@ -134,7 +135,7 @@ public class ExampleInstrumentedTest {
 //        Episodes.parser("Ep2");
 //        Episodes.parser("eP3");
 //        Episodes.parser("EP04");
-//        Episodes.parser("EP03-04");
+      logw(Episodes.parser("EP03-04").toString());
 //        Episodes.parser("d5");
 //        Episodes.parser("S0329");
 //        Episodes.parser("S3E234");
