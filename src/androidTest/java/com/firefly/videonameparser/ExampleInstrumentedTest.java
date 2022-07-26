@@ -30,6 +30,8 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testNameParse() {
+        debug2("/storage/1A14A5D514A5B3E3/Station/Download/12nh.1957.1080p.BluRay.MKV.中英字幕-CnSCG/12怒汉大审判.1957.1080p.BluRay.MKV.中英字幕-CnSCG.mkv");
+//        debug2("/storage/1A14A5D514A5B3E3/Station/Download/[ 高清剧集网 www.BTHDTV.com ]老友记 第十季[全18集][中文字幕].Friends.2003.1080p.BluRay.x265.AC3-BitsTV/Friends.S10E09.2003.1080p.BluRay.x265.AC3-BitsTV.mkv");
 //        debug2("/storage/1A14A5D514A5B3E3/Station/Download/致命女人.第一季.全10集.Why.Women.Kill.S01.HD1080P.X264.AAC.English.CHS-ENG/致命女人.Why.Women.Kill.S01.E01.HD1080P.X264.AAC.English.CHS-ENG177.mp4");
 //        debug2("smb://192.168.123.10/kk-0share/Movies/[BeanSub&FZSD&LoliHouse] Kimetsu no Yaiba - 40 [WebRip 1080p HEVC-10bit AAC ASSx2]/[BeanSub&FZSD&LoliHouse] Kimetsu no Yaiba - 40 [WebRip 1080p HEVC-10bit AAC ASSx2].mkv");
 //        debug2("storage/1A14A5D514A5B3E3/Movies/Beijing.2022.Olympic.Winter.Games.Opening.Ceremony.20220204.4320p.CCTV-8K.UHDTV.AVS3.10bit.HDR.MPEG-FLTTH.ts");
@@ -135,7 +137,7 @@ public class ExampleInstrumentedTest {
 //        Episodes.parser("Ep2");
 //        Episodes.parser("eP3");
 //        Episodes.parser("EP04");
-      logw(Episodes.parser("EP03-04").toString());
+//      logw(Episodes.parser("EP03-04").toString());
 //        Episodes.parser("d5");
 //        Episodes.parser("S0329");
 //        Episodes.parser("S3E234");

@@ -287,7 +287,7 @@ public class VideoNameParser2 {
             }
 
             if (mInfo.containPatterns("B", "A")) {
-                processPatternBA(seg);
+                processPatternA(seg);
             }
 
             if (mInfo.containPatterns("H", "A")) {
