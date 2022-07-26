@@ -101,30 +101,12 @@ public class MovieNameInfo {
         return (episodes != null) && (episodes.size() > 0);
     }
 
-//    public String toEpisode(String prefix) {
-//        if (TextUtils.isEmpty(prefix))
-//            prefix = "0";
-//        if (saneEpisode()) {
-//            StringBuffer sb = new StringBuffer();
-//            int ep = episodes.get(0);
-//            if (ep < 10 && ep > 0) {
-//                sb.append(prefix);
-//                sb.append(ep);
-//            } else {
-//                sb.append(ep);
-//            }
-//            return sb.toString();
-//        }
-//        return "";
-//    }
-
     public int toEpisode() {
         if (saneEpisode()) {
             return episodes.get(0);
         }
         return -1;
     }
-
 
     public String getName() {
         if (Locale.getDefault().getLanguage().equals(Locale.SIMPLIFIED_CHINESE.getLanguage()))
@@ -299,6 +281,14 @@ public class MovieNameInfo {
         return true;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @Override
     public String toString() {
         return "MovieNameInfo{" +
@@ -319,13 +309,7 @@ public class MovieNameInfo {
                 '}';
     }
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
 
 }

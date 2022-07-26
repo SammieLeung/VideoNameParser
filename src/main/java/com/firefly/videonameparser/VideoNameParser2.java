@@ -295,26 +295,6 @@ public class VideoNameParser2 {
             }
 
             if (mInfo.onlyContainPattern("A")) {
-                parserYear(seg);
-//                String regex = "[\\.| |_]" + PATTERN_SEASON_OR_EPISODE_OR_YEAR;
-//                if (StringUtils.matchFindStrictMode(regex, seg)) {
-//                    Episodes episodes = Episodes.parser(seg);
-//                    if (episodes != null) {
-//                        if (episodes.season != -1)
-//                            mInfo.setSeason(episodes.season);
-//                        if (mInfo.getYear() != episodes.episode && episodes.episode != -1) {
-//                            mInfo.setEpisode(episodes.episode);
-//                            if (episodes.toEpisode >= 0) {
-//                                mInfo.setEpisode(episodes.toEpisode);
-//                            }
-//                        }
-//                        if (episodes.isMatch() || episodes.saneEpisodes()) {
-//                            String[] matchers = StringUtils.matcher(regex, seg);
-//                            if (matchers != null)
-//                                seg = seg.replace(matchers[0], "");
-//                        }
-//                    }
-//                }
 
                 processPatternA(seg);
             }
@@ -871,16 +851,18 @@ public class VideoNameParser2 {
                     removeWords.add(key);
                 }
             }
+            if(removeWords.size()>0){
+                seg = seg.replaceAll("\\[(.*?)\\]", "");
+            }else {
+                seg = seg.replaceAll("\\.\\[", "\\[")
+                        .replaceAll("\\[", "\\.\\[");
+            }
+            tmpNameParts.clear();
+            removeWords.clear();
         }
-        if(removeWords.size()>0){
-            seg = seg.replaceAll("\\[(.*?)\\]", "");
-        }else {
-            seg = seg.replaceAll("\\.\\[", "\\[")
-                    .replaceAll("\\[", "\\.\\[");
-        }
+
         String[] segSplit = reverse(seg.split("\\.|-|;|_"));//空格不分开
-        tmpNameParts.clear();
-        removeWords.clear();
+
         for (int i = 0; i < segSplit.length; i++) {
 
             String value = segSplit[i];
@@ -912,14 +894,16 @@ public class VideoNameParser2 {
                 tmpNameParts.clear();
             }
 
-            int year = Year.parser(value);
-            if (year > 0) {
-                //Log.v("sjfq", "Year removeWords:"+key);
-                mInfo.setYear(year);
-                removeWords.add(String.valueOf(year));
-                removeWords.addAll(tmpNameParts);
-                tmpNameParts.clear();
-                value = value.replaceAll(String.valueOf(year), "");
+            if(mInfo.getYear()==0) {
+                int year = Year.parser(value);
+                if (year > 0) {
+                    //Log.v("sjfq", "Year removeWords:"+key);
+                    mInfo.setYear(year);
+                    removeWords.add(String.valueOf(year));
+                    removeWords.addAll(tmpNameParts);
+                    tmpNameParts.clear();
+                    value = value.replaceAll(String.valueOf(year), "");
+                }
             }
 
             Episodes episodes = Episodes.parser(value);
@@ -1030,10 +1014,15 @@ public class VideoNameParser2 {
             lastIndex = i;
             /* words with basic punctuation and two-digit numbers; or numbers in the first position */
             String[] x = {"ep", "episode", "season"};
-            if (!(isChinese(word) || word.matches("^[a-zA-Z,?!'&]*$") || (!isNaN(word) && word.length() <= 2) || (!isNaN(word) && i == 0))
+            if (!(isChinese(word)
+                    || word.matches("^[a-zA-Z,?!'&]*$")
+                    || (!isNaN(word) && word.length() <= 2)
+                    || (!isNaN(word) && i == 0)
+                    || (Year.parser(word)>0&&mInfo.getYear()>0))
                     //                || contain(excluded,word.toLowerCase())
-                    || ((indexOf(x, word.toLowerCase()) > -1) && !isNaN(segSplit[i + 1])) || indexOf(movieKeywords, word.toLowerCase()) > -1) // TODO: more than that, match for stamp too
-                break;
+                    || ((indexOf(x, word.toLowerCase()) > -1) && !isNaN(segSplit[i + 1]))
+                    || indexOf(movieKeywords, word.toLowerCase()) > -1) // TODO: more than that, match for stamp too
+                continue;
             nameParts.add(word);
         }
         //Log.v(TAG, "nameParts.size():"+nameParts.size());
