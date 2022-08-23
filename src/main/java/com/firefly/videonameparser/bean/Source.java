@@ -23,7 +23,7 @@ public class Source {
 		for(int i=0;i<regexs.length;i++){
 			String regex = String.format(format, regexs[i]);
 			build_regexs[i] = regex;
-			Log.v("sjfqq","regex:"+regex );
+//			Log.v("sjfqq","regex:"+regex );
 		}
 		
 		return build_regexs;
