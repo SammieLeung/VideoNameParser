@@ -8,8 +8,6 @@ import android.util.Log;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.firefly.videonameparser.bean.Episodes;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -145,7 +143,7 @@ public class ExampleInstrumentedTest {
     }
 
     public void debug2(String name) {
-        VideoNameParser2 mParser2 = new VideoNameParser2();
+        VideoNameParserV2 mParser2 = new VideoNameParserV2();
         MovieNameInfo info2 = mParser2.parseVideoName(name);
         log("name="+name+" : "+(info2.patterns!=null?info2.patterns.toString():"===None==="));
         logw(info2.toString());

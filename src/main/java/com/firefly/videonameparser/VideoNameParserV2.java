@@ -22,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class VideoNameParser2 {
+public class VideoNameParserV2 {
     private static final String TAG = "VideoNameParser2";
     /*
      * 视频名称解析依据
